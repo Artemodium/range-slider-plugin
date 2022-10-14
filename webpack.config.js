@@ -36,6 +36,10 @@ module.exports = {
             $: 'jquery',
             jQuery: 'jquery',
         }),
+        new webpack.ProvidePlugin({
+            $: 'jquery-ui',
+            jQuery: 'jquery-ui',
+        }),
     ],
     module: {
         rules: [

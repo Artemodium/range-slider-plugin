@@ -1,0 +1,2 @@
+export const ADD_THUMB = "ADD-THUMB"
+export const THUMB_POSITION_CHANGE = "THUMB-POSITION-CHANGE"

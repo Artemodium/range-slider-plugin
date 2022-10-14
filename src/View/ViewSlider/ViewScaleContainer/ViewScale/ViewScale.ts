@@ -1,18 +1,17 @@
 const $ = require('jquery');
 
-class SliderAppView{
+class ViewScale {
     private readonly selector: string;
 
     constructor(selector: string) {
         this.selector = selector;
     }
 
-    getSliderAppView(): JQuery {
+    getViewScale(): JQuery {
         return $('<div>', {
-            class: 'slider-app__view'
+            class: 'view__scale', type:"range", min:"0", max:"100", value:"30", id:"slider-1"
         }).appendTo(`${ this.selector }`);
-
     }
 }
 
-export default SliderAppView
+export default ViewScale

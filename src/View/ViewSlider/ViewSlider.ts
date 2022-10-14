@@ -1,17 +1,18 @@
 const $ = require('jquery');
 
-class ViewThumb {
+class SliderAppView{
     private readonly selector: string;
 
     constructor(selector: string) {
         this.selector = selector;
     }
 
-    getViewThumb(): JQuery {
+    getSliderAppView(): JQuery {
         return $('<div>', {
-            class: 'view__thumb'
+            class: 'my-slider-custom-app__view'
         }).appendTo(`${ this.selector }`);
+
     }
 }
 
-export default ViewThumb
+export default SliderAppView

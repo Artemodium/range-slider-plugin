@@ -1,18 +1,17 @@
-import '../styles/styles.sass'
 const $ = require('jquery');
 
-class renderSlider{
+class ViewScaleBackline {
     private readonly selector: string;
 
     constructor(selector: string) {
         this.selector = selector;
     }
 
-    getRenderSlider(): JQuery {
+    getViewScaleBackline(): JQuery {
         return $('<div>', {
-            class: 'my-slider-custom-app'
+            class: 'view__scale-backline'
         }).appendTo(`${ this.selector }`);
     }
 }
 
-export default renderSlider;
+export default ViewScaleBackline

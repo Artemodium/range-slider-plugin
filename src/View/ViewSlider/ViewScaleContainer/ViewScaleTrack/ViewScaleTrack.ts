@@ -1,18 +1,17 @@
-import '../styles/styles.sass'
 const $ = require('jquery');
 
-class renderSlider{
+class ViewScaleTrack {
     private readonly selector: string;
 
     constructor(selector: string) {
         this.selector = selector;
     }
 
-    getRenderSlider(): JQuery {
+    getViewScaleTrack(): JQuery {
         return $('<div>', {
-            class: 'my-slider-custom-app'
+            class: 'view__scale-track', type:"range", min:"0", max:"100"
         }).appendTo(`${ this.selector }`);
     }
 }
 
-export default renderSlider;
+export default ViewScaleTrack
