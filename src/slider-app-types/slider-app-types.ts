@@ -1,4 +1,9 @@
-import {ADD_THUMB, THUMB_POSITION_CHANGE} from "../ModelSlider/ModelSliderActions/ModelSliderActions";
+import {
+    ADD_THUMB,
+    SET_SLIDER_SCALE_SIZE_PX,
+    SET_SLIDER_SCALE_SIZE_NUMBER,
+    THUMB_POSITION_CHANGE
+} from "../ModelSlider/ModelSliderActions/ModelSliderActions";
 
 export type thumbPositionChangeActionType = {
     type: typeof THUMB_POSITION_CHANGE
@@ -11,6 +16,20 @@ export type addThumbActionType = {
     className: string
     id: string
     position: string
+    scalePosition: number
 }
 
-export type ActionType = thumbPositionChangeActionType | addThumbActionType
+export type setSliderScaleSizePX = {
+    type: typeof SET_SLIDER_SCALE_SIZE_PX
+    left: string
+    width: string
+}
+
+export type setSliderScaleSizeNumber = {
+    type: typeof SET_SLIDER_SCALE_SIZE_NUMBER
+    start: number
+    end: number
+    step: number
+}
+
+export type ActionType = thumbPositionChangeActionType | addThumbActionType | setSliderScaleSizePX | setSliderScaleSizeNumber

@@ -1,6 +1,6 @@
-const $ = require('jquery');
+import $ from "jquery";
 
-class ViewScaleContainer {
+class ScalePositionControllerContainer {
     private readonly selector: string;
     private readonly element: string;
 
@@ -9,11 +9,11 @@ class ViewScaleContainer {
         this.element = element;
     }
 
-    getViewScaleContainer(): JQuery {
+    getScalePositionControllerContainer(): JQuery {
         return $('<div>', {
             class: this.element
-        }).appendTo(`${ this.selector }`);
+        }).appendTo(`${this.selector}`);
     }
 }
 
-export default ViewScaleContainer
+export default ScalePositionControllerContainer

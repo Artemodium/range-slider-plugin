@@ -1,17 +1,17 @@
 const $ = require('jquery');
 
-class ViewControllerContainer {
+class ViewController {
     private readonly selector: string;
 
     constructor(selector: string) {
         this.selector = selector;
     }
 
-    getViewControllerContainer(): JQuery {
+    getViewController(): JQuery {
         return $('<div>', {
             class: 'view__controller-container'
         }).appendTo(`${ this.selector }`);
     }
 }
 
-export default ViewControllerContainer
+export default ViewController
