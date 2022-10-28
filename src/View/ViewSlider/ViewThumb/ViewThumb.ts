@@ -3,14 +3,18 @@ import ModelSliderStore from "../../../ModelSlider/ModelSlideStore/ModelSliderSt
 
 class ViewThumb {
     private readonly selector: string
+    private readonly topElement: string
     private readonly element: string
+    private readonly bottomElement: string
     private readonly container: string;
     private readonly id: string
     private readonly value: string
 
-    constructor(selector: string, element: string, container: string, id?: string, value?: string) {
+    constructor(selector: string, topElement: string, element: string, bottomElement: string, container: string, id?: string, value?: string) {
         this.selector = selector;
+        this.topElement = topElement
         this.element = element
+        this.bottomElement = bottomElement
         this.container = container
         this.id = id
         this.value = value
@@ -18,10 +22,20 @@ class ViewThumb {
     }
 
     getViewThumb(): JQuery {
+        let thumb: JQuery[] = [
+            $('<div>', {id: this.id, class: `${this.topElement}`}),
+            /*$('<div>', {id: this.id, class: `${this.element}`, style: ModelSliderStore.getThumbStylePosition(this.id)}),*/
+            $('<div>', {id: this.id, class: `${this.bottomElement}`})
+        ]
+        thumb.forEach((el: JQuery)=> {
+            el.appendTo(($(`#${this.id}.view__thumb`)))})
+        return
+    }
+    /*getViewThumb(): JQuery {
         return $('<div>', {
            id:this.id, class: `${this.element}`, style: ModelSliderStore.getThumbStylePosition(this.id)
         }).appendTo(`${this.selector}`)
-    }
+    }*/
 
     handle_mousedown(e: MouseEvent) {
         let drag: { pageY0: number; elem: HTMLElement; container:string; pageX0: number; offset0: { left: number, top: number }};
@@ -63,7 +77,7 @@ class ViewThumb {
                 } else if (e.clientX > drag.offset0.left){
                     $(drag.elem).offset({
                         top: top,
-                        left: $(drag.container)[0].offsetLeft + $(drag.container)[0].offsetWidth - 20
+                        left: $(drag.container)[0].offsetLeft + $(drag.container)[0].offsetWidth - 30
                     })
                 }
             }

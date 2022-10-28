@@ -5,13 +5,17 @@ import ModelSliderStore from "../../../../ModelSlider/ModelSlideStore/ModelSlide
 
 class ThumbPositionControllerContent {
     private readonly selector: string
+    private readonly topElement: string
     private readonly element: string
+    private readonly bottomElement: string
     private readonly controlElement: string
     private readonly id: string
 
-    constructor(selector: string, element: string, controlElement: string, id: string) {
+    constructor(selector: string, topElement: string, element: string, bottomElement: string, controlElement: string, id: string) {
         this.selector = selector
+        this.topElement = topElement
         this.element = element
+        this.bottomElement = bottomElement
         this.controlElement = controlElement
         this.id = id
     }
@@ -31,6 +35,15 @@ class ThumbPositionControllerContent {
         let val = $("#" + this.id + this.controlElement)[0].offsetLeft
         modelSliderStore.dispatch(onThumbPosChange(this.id, val))
         $(`#${this.id}.${this.element}`).attr("value", ModelSliderStore.getThumbScalePosition(this.id))
+        $(`#${this.id}.${this.topElement}`).text(ModelSliderStore.getThumbScalePosition(this.id))
+        $(`#${this.id}.${this.bottomElement}`).text(ModelSliderStore.getThumbScalePosition(this.id))
+        if(ModelSliderStore.getThumbScalePosition(this.id)/ModelSliderStore.getSliderScaleRange().end * 100 < 20) {
+            $('.view__min-container').css('opacity', `${(ModelSliderStore.getThumbScalePosition(this.id) / 100)}`)
+        }
+        if(ModelSliderStore.getThumbScalePosition(this.id)/ModelSliderStore.getSliderScaleRange().end * 100 > 80) {
+            $('.view__max-container').css('opacity', `${1 - ModelSliderStore.getThumbScalePosition(this.id)/ModelSliderStore.getSliderScaleRange().end}`)
+            console.log(1 - ModelSliderStore.getThumbScalePosition(this.id)/ModelSliderStore.getSliderScaleRange().end)
+        }
     };
 
     observeThumbPosition = () => {

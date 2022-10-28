@@ -1,3 +1,4 @@
+import ViewThumbContainer from "./ViewThumb/ViewThumbContainer/ViewThumbContainer";
 import ViewThumb from "./ViewThumb/ViewThumb";
 import ViewValuesMaxMin from "./ViewValues/ViewValuesMaxMin/ViewValuesMaxMin";
 import ViewValuesMin from "./ViewValues/ViewValuesMaxMin/ViewValueMin/ViewValuesMin";
@@ -19,10 +20,14 @@ class ViewSlider{
     }
 
     getSliderThumbs(): void{
-        const viewThumbMin = new ViewThumb('.my-slider-custom-app__view', 'view__thumb', '.my-slider-custom-app__view', 'min' )
+        const ViewThumbContainerMin = new ViewThumbContainer('.my-slider-custom-app__view', 'view__thumb', 'min' )
+        const ViewThumbContainerMax = new ViewThumbContainer('.my-slider-custom-app__view', 'view__thumb', 'max' )
+        ViewThumbContainerMin.getViewThumbContainer()
+        ViewThumbContainerMax.getViewThumbContainer()
+        const viewThumbMin = new ViewThumb('.my-slider-custom-app__view', 'topThumb', 'view__thumb', 'bottomThumb', '.my-slider-custom-app__view', 'min' )
         viewThumbMin.getViewThumb()
         viewThumbMin.handle_thumb()
-        const viewThumbMax = new ViewThumb('.my-slider-custom-app__view', 'view__thumb', '.my-slider-custom-app__view', 'max' )
+        const viewThumbMax = new ViewThumb('.my-slider-custom-app__view', 'topThumb', 'view__thumb', 'bottomThumb', '.my-slider-custom-app__view', 'max' )
         viewThumbMax.getViewThumb()
         viewThumbMax.handle_thumb()
     }

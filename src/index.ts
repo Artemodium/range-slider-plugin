@@ -31,7 +31,9 @@ let thumbPositionControllerContainerMin = new ThumbPositionControllerContainer('
                                                                                 'min')
 thumbPositionControllerContainerMin.getThumbPositionControllerContainer()
 let  thumbPositionControllerContentMin = new ThumbPositionControllerContent('view__thumb-input-container',
+                                                                            'topThumb',
                                                                             'view__thumb-input',
+                                                                            'bottomThumb',
                                                                             '.view__thumb',
                                                                             'min')
 thumbPositionControllerContentMin.getThumbPositionControllerContent()
@@ -41,7 +43,9 @@ let thumbPositionControllerContainerMax = new ThumbPositionControllerContainer('
                                                                                     'max')
 thumbPositionControllerContainerMax.getThumbPositionControllerContainer()
 let  thumbPositionControllerContentMax = new ThumbPositionControllerContent('view__thumb-input-container',
+                                                                            'topThumb',
                                                                             'view__thumb-input',
+                                                                            'bottomThumb',
                                                                             '.view__thumb',
                                                                             'max')
 thumbPositionControllerContentMax.getThumbPositionControllerContent()

@@ -12,7 +12,7 @@ let modelSliderStore = <any>{
                             min: {thumbPosition: 'left: 50px', relativePosition: 0.115, scalePosition: 122},
 
             },
-            sliderScaleRange: {start: 0, end: 100, step: 1},
+            sliderScaleRange: {start: 0, end: 500, step: 1},
             sliderScale: {left: '', width: '' },
         },
         dispatch(action: ActionType){
@@ -34,8 +34,8 @@ let modelSliderStore = <any>{
                     return this.modelSliderState.sliderThumbs[action.id] = {
                         thumbPosition: `left: ${action.val}px`,
                         relativePosition: action.val/this.getSliderScaleSize(),
-                        scalePosition: Math.round(action.val/(this.getSliderScaleSize()-20)*this.getSliderScaleRange().end)<this.getSliderScaleRange().end ?
-                            Math.round(action.val/(this.getSliderScaleSize()-20)*this.getSliderScaleRange().end):
+                        scalePosition: Math.round(action.val/(this.getSliderScaleSize()-30)*this.getSliderScaleRange().end)<this.getSliderScaleRange().end ?
+                            Math.round(action.val/(this.getSliderScaleSize()-30)*this.getSliderScaleRange().end):
                             this.getSliderScaleRange().end }
                 default:
                     return this.modelSliderState
