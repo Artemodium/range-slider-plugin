@@ -6,7 +6,7 @@ class ViewThumbContainer {
     private readonly id: string
 
     constructor(selector: string, element: string, id?: string) {
-        this.selector = selector;
+        this.selector = selector
         this.element = element
         this.id = id
 

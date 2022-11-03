@@ -19,6 +19,7 @@ viewSlider.getSliderMaxMinValues()
 viewSlider.getSliderThumbs()
 //viewSlider.getSliderMaxMinValues()
 viewSlider.getSliderScales()
+viewSlider.getViewRuler()
 
 let viewController = new ViewController('.my-slider-custom-plugin')
 viewController.getViewController()

@@ -1,17 +1,19 @@
-const $ = require('jquery');
+const $ = require('jquery')
 
-class ViewScaleBackline {
-    private readonly selector: string;
+class ViewScaleBackLine {
+    private readonly selector: string
+    private readonly element: string
 
-    constructor(selector: string) {
-        this.selector = selector;
+    constructor(selector: string, element: string) {
+        this.selector = selector
+        this.element = element
     }
 
-    getViewScaleBackline(): JQuery {
+    getViewScaleBackLine(): JQuery {
         return $('<div>', {
-            class: 'view__scale-backline'
-        }).appendTo(`${ this.selector }`);
+            class: this.element
+        }).appendTo(`${ this.selector }`)
     }
 }
 
-export default ViewScaleBackline
+export default ViewScaleBackLine

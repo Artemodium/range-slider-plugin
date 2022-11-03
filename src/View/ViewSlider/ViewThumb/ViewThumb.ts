@@ -24,18 +24,12 @@ class ViewThumb {
     getViewThumb(): JQuery {
         let thumb: JQuery[] = [
             $('<div>', {id: this.id, class: `${this.topElement}`}),
-            /*$('<div>', {id: this.id, class: `${this.element}`, style: ModelSliderStore.getThumbStylePosition(this.id)}),*/
             $('<div>', {id: this.id, class: `${this.bottomElement}`})
         ]
         thumb.forEach((el: JQuery)=> {
             el.appendTo(($(`#${this.id}.view__thumb`)))})
         return
     }
-    /*getViewThumb(): JQuery {
-        return $('<div>', {
-           id:this.id, class: `${this.element}`, style: ModelSliderStore.getThumbStylePosition(this.id)
-        }).appendTo(`${this.selector}`)
-    }*/
 
     handle_mousedown(e: MouseEvent) {
         let drag: { pageY0: number; elem: HTMLElement; container:string; pageX0: number; offset0: { left: number, top: number }};
@@ -55,6 +49,7 @@ class ViewThumb {
             let min = ModelSliderStore.getThumbPosition('min')
             let max = ModelSliderStore.getThumbPosition('max')
             let left = drag.offset0.left + (e.clientX - drag.pageX0)
+            let containerLength = $(drag.container)[0].offsetLeft + $(drag.container)[0].offsetWidth
             //let top = drag.offset0.top + (e.pageY - drag.pageY0);
             if ($(drag.elem)[0].id === 'min') {
                 if (left > $(drag.container)[0].offsetLeft &&
@@ -70,25 +65,28 @@ class ViewThumb {
                 }
             }
             else if ($(drag.elem)[0].id === 'max') {
-                if (left > $(drag.container)[0].offsetLeft + min && left < $(drag.container)[0].offsetLeft + $(drag.container)[0].offsetWidth - 20) {
+                if (left > $(drag.container)[0].offsetLeft + min && left < containerLength - 30) {
                     $(drag.elem).offset({top: top, left: left})
+                    console.log(containerLength, '  1')
                 } else if (e.clientX < $(drag.container)[0].offsetLeft + min) {
+                    console.log(e.clientX, $(drag.container)[0].offsetLeft + min, drag.elem, '  2')
                     $(drag.elem).offset({top: top, left: $(drag.container)[0].offsetLeft + min})
-                } else if (e.clientX > drag.offset0.left){
+                    e.stopPropagation()
+                } else if (e.clientX > containerLength) {
                     $(drag.elem).offset({
                         top: top,
                         left: $(drag.container)[0].offsetLeft + $(drag.container)[0].offsetWidth - 30
                     })
+                    //console.log(e.target ===  $(drag.container)[0])
                 }
             }
         }
         function handle_mouseup() {
-            $(window)
+            $(document)
                 .off('mousemove', handle_dragging)
                 .off('mouseup', handle_mouseup)
         }
-
-        $(window)
+        $(document)
             .on('mouseup', handle_mouseup)
             .on('mousemove', handle_dragging)
     }

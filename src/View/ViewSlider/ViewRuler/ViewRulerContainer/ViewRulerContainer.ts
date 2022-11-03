@@ -1,6 +1,6 @@
-const $ = require('jquery');
+const $ = require('jquery')
 
-class ViewScale {
+class ViewRulerContainer {
     private readonly selector: string
     private readonly element: string
 
@@ -9,11 +9,12 @@ class ViewScale {
         this.element = element
     }
 
-    getViewScale(): JQuery {
+    getViewRulerContainer(): JQuery {
+
         return $('<div>', {
-            class: this.element, type:"range", min:"0", max:"100", value:"30", id:"slider-1"
-        }).appendTo(`${ this.selector }`);
+            class: this.element
+        }).appendTo(`${ this.selector }`)
     }
 }
 
-export default ViewScale
+export default ViewRulerContainer

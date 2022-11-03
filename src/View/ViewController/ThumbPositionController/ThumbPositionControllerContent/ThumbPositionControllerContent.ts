@@ -37,12 +37,20 @@ class ThumbPositionControllerContent {
         $(`#${this.id}.${this.element}`).attr("value", ModelSliderStore.getThumbScalePosition(this.id))
         $(`#${this.id}.${this.topElement}`).text(ModelSliderStore.getThumbScalePosition(this.id))
         $(`#${this.id}.${this.bottomElement}`).text(ModelSliderStore.getThumbScalePosition(this.id))
-        if(ModelSliderStore.getThumbScalePosition(this.id)/ModelSliderStore.getSliderScaleRange().end * 100 < 20) {
-            $('.view__min-container').css('opacity', `${(ModelSliderStore.getThumbScalePosition(this.id) / 100)}`)
+        $('.view__scale-track')
+            .attr("style", ModelSliderStore.getThumbStylePosition('min'))
+            .css({width: ModelSliderStore.getThumbsDifference()+12})
+        if(ModelSliderStore.getThumbPosition('min')<30) {
+            $(".view__min-container").attr("style", "opacity: 0")
         }
-        if(ModelSliderStore.getThumbScalePosition(this.id)/ModelSliderStore.getSliderScaleRange().end * 100 > 80) {
-            $('.view__max-container').css('opacity', `${1 - ModelSliderStore.getThumbScalePosition(this.id)/ModelSliderStore.getSliderScaleRange().end}`)
-            console.log(1 - ModelSliderStore.getThumbScalePosition(this.id)/ModelSliderStore.getSliderScaleRange().end)
+        if(ModelSliderStore.getThumbPosition('min')>30) {
+            $(".view__min-container").attr("style", "opacity: 1")
+        }
+        if(ModelSliderStore.getThumbPosition('max')>ModelSliderStore.getSliderScaleSize()-70) {
+            $(".view__max-container").attr("style", "opacity: 0")
+        }
+        if(ModelSliderStore.getThumbPosition('max')<ModelSliderStore.getSliderScaleSize()-70) {
+            $(".view__max-container").attr("style", "opacity: 1")
         }
     };
 

@@ -1,22 +1,21 @@
 import ModelSliderStore from "../../../../ModelSlider/ModelSlideStore/ModelSliderStore";
 
-const $ = require('jquery')
+const $ = require('jquery');
 
-class ViewScaleTrack {
+class ViewThumbsContainer {
     private readonly selector: string
     private readonly element: string
 
-
-    constructor(selector: string, element: string) {
+    constructor(selector: string, element: string, ) {
         this.selector = selector
         this.element = element
     }
 
-    getViewScaleTrack(): JQuery {
+    getViewThumbsContainer(): JQuery {
         return $('<div>', {
-            class: 'view__scale-track'
-        }).appendTo(`${ this.selector }`);
+           class: `${this.element}`
+        }).appendTo(`${this.selector}`)
     }
 }
 
-export default ViewScaleTrack
+export default ViewThumbsContainer
