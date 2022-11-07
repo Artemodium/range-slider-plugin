@@ -2,7 +2,7 @@ import {
     ADD_THUMB,
     SET_SLIDER_SCALE_SIZE_PX,
     SET_SLIDER_SCALE_SIZE_NUMBER,
-    THUMB_POSITION_CHANGE
+    THUMB_POSITION_CHANGE, SET_THUMB_LOCK
 } from "../ModelSlider/ModelSliderActions/ModelSliderActions";
 
 export type thumbPositionChangeActionType = {
@@ -32,4 +32,9 @@ export type setSliderScaleSizeNumber = {
     step: number
 }
 
-export type ActionType = thumbPositionChangeActionType | addThumbActionType | setSliderScaleSizePX | setSliderScaleSizeNumber
+export type setThumbLock = {
+    type: typeof SET_THUMB_LOCK
+    lock: boolean
+}
+
+export type ActionType = thumbPositionChangeActionType | addThumbActionType | setSliderScaleSizePX | setSliderScaleSizeNumber | setThumbLock
