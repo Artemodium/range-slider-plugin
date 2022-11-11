@@ -2,27 +2,31 @@ import {ActionType} from "../../slider-app-types/slider-app-types";
 import {
     ADD_THUMB,
     SET_SLIDER_SCALE_SIZE_NUMBER,
-    SET_SLIDER_SCALE_SIZE_PX, SET_THUMB_LOCK,
+    SET_SLIDER_SCALE_SIZE_PX, SET_THUMB_LOCK, SET_VIEW_RULER,
     THUMB_POSITION_CHANGE
 } from "../ModelSliderActions/ModelSliderActions";
+import $ from "jquery";
 
 let modelSliderStore = <any>{
         modelSliderState: {
-            sliderThumbs: { max: {thumbPosition: 'left: 250px', relativePosition: 0.578, scalePosition: 606},
-                            min: {thumbPosition: 'left: 50px', relativePosition: 0.115, scalePosition: 122},
+            sliderThumbs: { max: { },
+                            min: { },
             },
-            sliderScaleRange: {start: 0, end: 500, step: 1},
-            sliderScale: {left: '', width: '' },
-            lock: {lock: false}
+            sliderScaleRange: { },
+            sliderScale: { },
+            ruler: { },
+            lock: { }
         },
         dispatch(action: ActionType){
+            //console.log(this.modelSliderState.sliderThumbs)
             switch (action.type) {
-                /*case ADD_THUMB:
+                case ADD_THUMB:
                     return this.modelSliderState.sliderThumbs={
                         ...this.modelSliderState.sliderThumbs, [action.id]: {thumbPosition: action.position,
                             relativePosition: parseInt(action.position.match(/[-]*[0-9]+/)[0])/this.getSliderScaleSize(),
-                            scalePosition: action.scalePosition}}*/
+                            scalePosition: action.scalePosition}}
                 case SET_SLIDER_SCALE_SIZE_PX:
+                    //console.log(this.modelSliderState.sliderScale.width)
                     return this.modelSliderState.sliderScale = {...this.modelSliderState.sliderScale, left: action.left, width: action.width}
                 case SET_SLIDER_SCALE_SIZE_NUMBER:
                     return this.modelSliderState.sliderScaleRange = {...this.modelSliderState.sliderScaleRange,
@@ -44,10 +48,10 @@ let modelSliderStore = <any>{
                             relativePosition: this.calculateRelativeThumbPosition(action.val),
                             scalePosition: this.calculateScalePosition(action.val)
                         }
-
                 case SET_THUMB_LOCK:
                     return this.modelSliderState.lock.lock = action.lock
-
+                case SET_VIEW_RULER:
+                    return {...this.modelSliderState.ruler, start: action.start, end: action.end, step: action.step, width: action.width}
                 default:
                     return this.modelSliderState
             }
@@ -88,6 +92,17 @@ let modelSliderStore = <any>{
         getThumbScalePosition(id: string): number {
             return this.modelSliderState.sliderThumbs[id].scalePosition
         },
+        thumbsObserver(observableFunc: any): void {
+            let observer = new MutationObserver(observableFunc)
+            $(".view__thumb").each((thumb: number) => {
+                observer.observe($(".view__thumb")[thumb], {attributes: true})})
+        },
+        getScaleRulerDelimiter(): number {
+            return this.modelSliderState.sliderScaleRange.end/10
+        },
+        getRuleSizes(): {start: number, end: number, step: number, width: number} {
+            return this.modelSliderState.ruler
+        }
 }
 
 export default modelSliderStore

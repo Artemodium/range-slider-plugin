@@ -9,7 +9,11 @@ import ScalePositionControllerContainer
     from './View/ViewController/ScalePositionController/ScalePositionControllerContainer/ScalePositionControllerContainer';
 import ThumbPositionController from './View/ViewController/ThumbPositionController/ThumbPositionController';
 import ViewController from './View/ViewController/ViewController';
+import ViewRuler from "./View/ViewSlider/ViewRuler/ViewRuler";
+import sliderInit from "./renderSlider/SliderInit";
+import ModelSliderStore from "./ModelSlider/ModelSlideStore/ModelSliderStore";
 
+sliderInit(ModelSliderStore.modelSliderState)
 new renderSlider('.my-slider-custom-plugin').getRenderSlider()
 
 let viewSlider = new ViewSlider('.my-slider-custom-app',
@@ -19,7 +23,7 @@ viewSlider.getSliderMaxMinValues()
 viewSlider.getSliderThumbs()
 //viewSlider.getSliderMaxMinValues()
 viewSlider.getSliderScales()
-viewSlider.getViewRuler()
+//viewSlider.getViewRuler()
 
 let viewController = new ViewController('.my-slider-custom-plugin')
 viewController.getViewController()
@@ -68,3 +72,5 @@ let scalePositionControllerContent = new ScalePositionControllerContent('.scale_
 scalePositionControllerContent.getScalePositionControllerContent()
 scalePositionControllerContent.setScaleSize()
 scalePositionControllerContent.observeScaleSize()
+new ViewRuler('.view__ruler-container', 'view__ruler').getViewRuler()
+viewSlider.getViewRuler()

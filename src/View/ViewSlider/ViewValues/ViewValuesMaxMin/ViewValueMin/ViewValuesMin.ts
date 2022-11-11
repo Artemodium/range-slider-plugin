@@ -1,8 +1,6 @@
-import ModelSliderStore from "../../../../../ModelSlider/ModelSlideStore/ModelSliderStore";
-import modelSliderStore from "../../../../../ModelSlider/ModelSlideStore/ModelSliderStore";
-import {onThumbPosChange} from "../../../../../ModelSlider/ModelSliderActionCreators/ModelSliderActionCreators";
+import ModelSliderStore from "../../../../../ModelSlider/ModelSlideStore/ModelSliderStore"
 
-const $ = require('jquery');
+const $ = require('jquery')
 
 class ViewValueMin {
     private readonly selector: string

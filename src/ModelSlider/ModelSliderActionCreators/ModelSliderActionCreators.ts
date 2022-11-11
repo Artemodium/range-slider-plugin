@@ -1,7 +1,7 @@
 import {
     ADD_THUMB,
     SET_SLIDER_SCALE_SIZE_NUMBER,
-    SET_SLIDER_SCALE_SIZE_PX, SET_THUMB_LOCK,
+    SET_SLIDER_SCALE_SIZE_PX, SET_THUMB_LOCK, SET_VIEW_RULER,
     THUMB_POSITION_CHANGE
 } from "../ModelSliderActions/ModelSliderActions";
 
@@ -36,3 +36,11 @@ export let setSliderScaleSizeNumber = (start?: number, end?: number, step?: numb
     end: end,
     step: step
 } as const)
+
+export let setViewRuler = (start: number, end: number, step: number, width?: number) => ({
+    type: SET_VIEW_RULER,
+    start: start,
+    end: end,
+    step: step,
+    width: width
+} as const )

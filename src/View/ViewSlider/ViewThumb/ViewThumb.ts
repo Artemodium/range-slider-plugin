@@ -1,20 +1,18 @@
-import {onThumbPosChange, setThumbLock} from "../../../ModelSlider/ModelSliderActionCreators/ModelSliderActionCreators";
-
-const $ = require('jquery');
-import ModelSliderStore from "../../../ModelSlider/ModelSlideStore/ModelSliderStore";
-import modelSliderStore from "../../../ModelSlider/ModelSlideStore/ModelSliderStore";
+const $ = require('jquery')
+import {setThumbLock} from "../../../ModelSlider/ModelSliderActionCreators/ModelSliderActionCreators"
+import ModelSliderStore from "../../../ModelSlider/ModelSlideStore/ModelSliderStore"
 
 class ViewThumb {
     private readonly selector: string
     private readonly topElement: string
     private readonly element: string
     private readonly bottomElement: string
-    private readonly container: string;
+    private readonly container: string
     private readonly id: string
     private readonly value: string
 
     constructor(selector: string, topElement: string, element: string, bottomElement: string, container: string, id?: string, value?: string) {
-        this.selector = selector;
+        this.selector = selector
         this.topElement = topElement
         this.element = element
         this.bottomElement = bottomElement
@@ -30,12 +28,12 @@ class ViewThumb {
             $('<div>', {id: this.id, class: `${this.bottomElement}`})
         ]
         thumb.forEach((el: JQuery)=> {
-            el.appendTo(($(`#${this.id}.view__thumb`)))})
+            el.appendTo(($(`#${this.id}.${this.element}`)))})
         return
     }
 
     handle_mousedown(e: MouseEvent) {
-        let drag: { pageY0: number; elem: HTMLElement; container:string; pageX0: number; offset0: { left: number, top: number }};
+        let drag: { pageY0: number; elem: HTMLElement; container:string; pageX0: number; offset0: { left: number, top: number }}
         drag = {
             pageX0: undefined,
             pageY0: undefined,
@@ -43,17 +41,17 @@ class ViewThumb {
             container: this.container,
             offset0: undefined,
         };
-        drag.pageX0 = e.pageX;
-        drag.pageY0 = e.pageY;
-        drag.elem =$(`#${this.id}.${this.element}`);
-        drag.offset0 = $(drag.elem).offset();
+        drag.pageX0 = e.pageX
+        drag.pageY0 = e.pageY
+        drag.elem = $(`#${this.id}.${this.element}`)
+        drag.offset0 = $(drag.elem).offset()
 
         function handle_dragging(e: MouseEvent) {
             let min = ModelSliderStore.getThumbPosition('min')
             let max = ModelSliderStore.getThumbPosition('max')
             let left = drag.offset0.left + (e.clientX - drag.pageX0)
             let containerLength = $(drag.container)[0].offsetLeft + $(drag.container)[0].offsetWidth
-            //let top = drag.offset0.top + (e.pageY - drag.pageY0);
+            //let top = drag.offset0.top + (e.pageY - drag.pageY0)
             if ($(drag.elem)[0].id === 'min') {
                 if (left > $(drag.container)[0].offsetLeft &&
                     left < $(drag.container)[0].offsetLeft + max) {
@@ -62,7 +60,7 @@ class ViewThumb {
                 } else if (e.clientX < $(drag.container)[0].offsetLeft) {
                     ModelSliderStore.dispatch(setThumbLock(false))
                     $(drag.elem).offset({top: top, left: $(drag.container)[0].offsetLeft})
-                } else if (e.clientX > drag.offset0.left + max){
+                } else if (e.clientX > $(drag.container)[0].offsetLeft + max){
                     $(drag.elem).offset({top: top, left: $(drag.container)[0].offsetLeft + max
                     })
                     ModelSliderStore.dispatch(setThumbLock(true))
@@ -74,20 +72,17 @@ class ViewThumb {
                 if (left > $(drag.container)[0].offsetLeft + min && left < containerLength - 30) {
                     ModelSliderStore.dispatch(setThumbLock(false))
                     $(drag.elem).offset({top: top, left: left})
-                    //ModelSliderStore.dispatch(onThumbPosChange("max", $(drag.elem)[0].offsetLeft.left))
                 } else if (e.clientX < $(drag.container)[0].offsetLeft + min) {
                     ModelSliderStore.dispatch(setThumbLock(true))
                     $(drag.elem).offset({top: top, left: $(drag.container)[0].offsetLeft + min})
                     $('.view__scale-track')
                         .css({width: 0})
-                    //ModelSliderStore.dispatch(onThumbPosChange("max", $(drag.container)[0].offsetLeft + min))
                 } else if (e.clientX > containerLength) {
                     ModelSliderStore.dispatch(setThumbLock(false))
                     $(drag.elem).offset({
                         top: top,
                         left: $(drag.container)[0].offsetLeft + $(drag.container)[0].offsetWidth - 30
                     })
-                    //ModelSliderStore.dispatch(onThumbPosChange("max", $(drag.elem)[0].offsetLeft.left))
                 }
             }
         }

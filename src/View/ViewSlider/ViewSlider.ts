@@ -49,15 +49,19 @@ class ViewSlider{
     }
 
     getSliderScales(): void {
-        new ViewScaleContainer('.my-slider-custom-app__view', 'view__scale-container').getViewScaleContainer()
-        new ViewScaleContainer('.my-slider-custom-app__view', 'view__scale-container').onScaleClick()
+        new ViewScaleContainer('.my-slider-custom-app__view', 'view__scale-container', 'view__thumb', {max: "max", min: 'min'}).getViewScaleContainer()
+        new ViewScaleContainer('.my-slider-custom-app__view', 'view__scale-container', 'view__thumb', {max: "max", min: 'min'}).onScaleClick()
+        //new ViewScaleContainer('.my-slider-custom-app__view', 'view__scale-container').observeScaleSize()
         new ViewScaleBackLine('.view__scale-container', 'view__scale-backLine').getViewScaleBackLine()
         new ViewScaleTrack('.view__scale-container', 'view__scale-track').getViewScaleTrack()
-        new ViewScale (".view__scale-container", "view__scale").getViewScale()
+        //new ViewScaleTrack('.view__scale-container', 'view__scale-track').observeScaleSize()
+        //new ViewScale (".view__scale-container", "view__scale").getViewScale()
     }
     getViewRuler(): void {
         new ViewRulerContainer('.my-slider-custom-app__view', 'view__ruler-container').getViewRulerContainer()
-        new ViewRuler('.view__ruler-container', 'view__ruler').getViewRuler()
+        //new ViewRuler('.view__ruler-container', 'view__ruler').rulerInit()
+        //new ViewRuler('.view__ruler-container', 'view__ruler').getViewRuler()
+        new ViewRuler('.view__ruler-container', 'view__ruler').observeRulerSize()
     }
 
     getViewSlider(): JQuery {

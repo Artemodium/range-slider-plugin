@@ -58,7 +58,7 @@ class ThumbPositionControllerContent {
         let observer = new MutationObserver(this.getThumbPositionValue)
         $(this.controlElement).each((thumb: number) => {
             observer.observe($(this.controlElement)[thumb], {attributes: true})})
-    };
+    }
 }
 
 export default ThumbPositionControllerContent

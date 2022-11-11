@@ -37,10 +37,9 @@ class ScalePositionControllerContent {
         let width = $("." + this.scale)[0].offsetWidth
         ModelSliderStore.dispatch(setSliderScaleSizePx(left, width))
         $(`.${this.element}`).attr("value", ModelSliderStore.getSliderScaleSize())
-        //$("#min.topThumb").attr("text", ModelSliderStore.getThumbScalePosition('min'))
         this.thumbId.forEach((id) => {
             ModelSliderStore.dispatch(onThumbPosChange(id, width * modelSliderStore.getRelativeThumbPosition(id)))
-            $(`#${id}${this.thumb}`).attr("style", ModelSliderStore.getThumbStylePosition(id))
+            $(`#${id}${this.thumb}`).attr("style", ModelSliderStore.getThumbStylePosition(id)) // thumbs init
         })
     }
 
