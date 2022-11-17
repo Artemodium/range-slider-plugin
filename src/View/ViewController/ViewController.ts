@@ -9,7 +9,7 @@ class ViewController {
 
     getViewController(): JQuery {
         return $('<div>', {
-            class: 'view__controller-container'
+            class: 'view__controller-container',
         }).appendTo(`${ this.selector }`);
     }
 }

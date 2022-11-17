@@ -3,19 +3,19 @@ const $ = require('jquery');
 class ThumbPositionControllerContainer {
     private readonly selector: string
     private readonly element: string
-    private readonly id: string
+    private readonly title: string
 
-    constructor(selector: string, element: string, id: string) {
+    constructor(selector: string, element: string, title: string) {
         this.selector = selector
         this.element = element
-        this.id = id
+        this.title = title
     }
 
     getThumbPositionControllerContainer(): JQuery {
-        return $('<div>', {
-            class: this.element,
-            id: this.id})
-       .appendTo(`${this.selector}`)
+        const container = document.createElement("div")
+        container.setAttribute("class", `${this.element}`)
+        container.innerHTML = `<h5>${this.title}</h5>`
+        return $(container).appendTo(`${this.selector}`)
     }
 }
 

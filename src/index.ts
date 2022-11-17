@@ -12,6 +12,7 @@ import ViewController from './View/ViewController/ViewController';
 import ViewRuler from "./View/ViewSlider/ViewRuler/ViewRuler";
 import sliderInit from "./renderSlider/SliderInit";
 import ModelSliderStore from "./ModelSlider/ModelSlideStore/ModelSliderStore";
+import ControlElement from "./View/ViewController/ControlElement/ControlElement";
 
 sliderInit(ModelSliderStore.modelSliderState)
 new renderSlider('.my-slider-custom-plugin').getRenderSlider()
@@ -29,32 +30,23 @@ let viewController = new ViewController('.my-slider-custom-plugin')
 viewController.getViewController()
 
 let thumbPositionControllers = new ThumbPositionController('.view__controller-container',
-                                                            'thumb__position-controller')
+                                                            'thumb__position-controller',
+                                                            "Thumbs position")
 thumbPositionControllers.getThumbPositionController()
+
 let thumbPositionControllerContainerMin = new ThumbPositionControllerContainer('.thumb__position-controller',
                                                                                 'view__thumb-input-container',
-                                                                                'min')
+                                                                                "Thumbs position")
 thumbPositionControllerContainerMin.getThumbPositionControllerContainer()
-let  thumbPositionControllerContentMin = new ThumbPositionControllerContent('view__thumb-input-container',
+
+let  thumbPositionControllerContent = new ThumbPositionControllerContent('view__thumb-input-container',
                                                                             'topThumb',
-                                                                            'view__thumb-input',
+                                                                            'control-input__value',
                                                                             'bottomThumb',
                                                                             '.view__thumb',
-                                                                            'min')
-thumbPositionControllerContentMin.getThumbPositionControllerContent()
-thumbPositionControllerContentMin.observeThumbPosition()
-let thumbPositionControllerContainerMax = new ThumbPositionControllerContainer('.thumb__position-controller',
-                                                                                'view__thumb-input-container',
-                                                                                    'max')
-thumbPositionControllerContainerMax.getThumbPositionControllerContainer()
-let  thumbPositionControllerContentMax = new ThumbPositionControllerContent('view__thumb-input-container',
-                                                                            'topThumb',
-                                                                            'view__thumb-input',
-                                                                            'bottomThumb',
-                                                                            '.view__thumb',
-                                                                            'max')
-thumbPositionControllerContentMax.getThumbPositionControllerContent()
-thumbPositionControllerContentMax.observeThumbPosition()
+                                                                            ["min", "max"])
+thumbPositionControllerContent.addControlElement()
+thumbPositionControllerContent.observeThumbPosition()
 
 let scalePositionController = new ScalePositionController('.view__controller-container',
                                                             'scale__position-controller')

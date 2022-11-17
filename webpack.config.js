@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-//const ESLintPlugin = require('eslint-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
 
@@ -31,7 +29,6 @@ module.exports = {
                 },
             ],
         }),
-/*        new ESLintPlugin(),*/
         new webpack.ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery',
@@ -65,7 +62,7 @@ module.exports = {
                 generator: {
                     filename: 'assets/images/[hash][ext][query]',
                 },
-            }
+            },
         ],
     },
     resolve: {

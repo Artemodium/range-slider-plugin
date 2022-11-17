@@ -69,7 +69,7 @@ class ViewThumb {
                 }
             }
             else if ($(drag.elem)[0].id === 'max') {
-                if (left > $(drag.container)[0].offsetLeft + min && left < containerLength - 30) {
+                if (left > $(drag.container)[0].offsetLeft + min && left < containerLength - 5) {
                     ModelSliderStore.dispatch(setThumbLock(false))
                     $(drag.elem).offset({top: top, left: left})
                 } else if (e.clientX < $(drag.container)[0].offsetLeft + min) {
@@ -81,7 +81,7 @@ class ViewThumb {
                     ModelSliderStore.dispatch(setThumbLock(false))
                     $(drag.elem).offset({
                         top: top,
-                        left: $(drag.container)[0].offsetLeft + $(drag.container)[0].offsetWidth - 30
+                        left: $(drag.container)[0].offsetLeft + $(drag.container)[0].offsetWidth - 5
                     })
                 }
             }

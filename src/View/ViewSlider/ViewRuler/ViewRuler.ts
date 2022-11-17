@@ -22,8 +22,8 @@ class ViewRuler {
         let big = range.end/(range.end*0.01)
         let middle = (range.end/(range.end*0.01))/2*/
        // console.log(ModelSliderStore.getSliderScaleSize())
-        let loopLength = 100
-        let loopStep = ModelSliderStore.getSliderScaleSize()/ModelSliderStore.getSliderScaleSize()
+        let loopLength = range.end
+        let loopStep = range.step
         let big = ModelSliderStore.getSliderScaleSize()/(ModelSliderStore.getSliderScaleSize()*0.1)
         let middle = ModelSliderStore.getSliderScaleSize()/(ModelSliderStore.getSliderScaleSize()*0.1)/2
 

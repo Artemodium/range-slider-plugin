@@ -12,16 +12,6 @@ class ViewScaleTrack {
         this.element = element
     }
 
-    /*getScaleTrackSize = () => {
-        $(`.${this.element}`)
-            .attr("style", `left: ${ModelSliderStore.getThumbPosition('min') + 12}px`)
-            .css({width: ModelSliderStore.getThumbsDifference()})
-    }
-
-    observeScaleSize(){
-        ModelSliderStore.thumbsObserver(this.getScaleTrackSize)
-    }*/
-
     getViewScaleTrack(): JQuery {
         return $('<div>', {
             class: this.element

@@ -36,7 +36,7 @@ let modelSliderStore = <any>{
                 case THUMB_POSITION_CHANGE:
                     if (!modelSliderStore.isThumbLock()) {
                         return this.modelSliderState.sliderThumbs[action.id] = {
-                            thumbPosition: `left: ${action.val < 0 ? 0 : action.val > this.getSliderScaleSize() - 30 ? this.getSliderScaleSize() - 30 : action.val}px`,
+                            thumbPosition: `left: ${action.val < 0 ? 0 : action.val > this.getSliderScaleSize() - 5 ? this.getSliderScaleSize() - 5 : action.val}px`,
                             relativePosition: this.calculateRelativeThumbPosition(action.val),
                             scalePosition: this.calculateScalePosition(action.val)
                         }
@@ -61,8 +61,8 @@ let modelSliderStore = <any>{
             return val / this.getSliderScaleSize()
         },
         calculateScalePosition(val: number) {
-            return Math.round(val / (this.getSliderScaleSize() - 30) * this.getSliderScaleRange().end) < this.getSliderScaleRange().end ?
-                    Math.round(val / (this.getSliderScaleSize() - 30) * this.getSliderScaleRange().end) :
+            return Math.round(val / (this.getSliderScaleSize() - 5) * this.getSliderScaleRange().end) < this.getSliderScaleRange().end ?
+                    Math.round(val / (this.getSliderScaleSize() - 5) * this.getSliderScaleRange().end) :
                     this.getSliderScaleRange().end
         },
         getThumbPosition(id: string): number {
