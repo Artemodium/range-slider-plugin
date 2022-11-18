@@ -14,7 +14,7 @@ class ThumbPositionControllerContainer {
     getThumbPositionControllerContainer(): JQuery {
         const container = document.createElement("div")
         container.setAttribute("class", `${this.element}`)
-        container.innerHTML = `<h5>${this.title}</h5>`
+        container.innerHTML = `<div class="${this.element}__title">${this.title}</div>`
         return $(container).appendTo(`${this.selector}`)
     }
 }

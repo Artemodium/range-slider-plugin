@@ -13,6 +13,7 @@ import ViewRuler from "./View/ViewSlider/ViewRuler/ViewRuler";
 import sliderInit from "./renderSlider/SliderInit";
 import ModelSliderStore from "./ModelSlider/ModelSlideStore/ModelSliderStore";
 import ControlElement from "./View/ViewController/ControlElement/ControlElement";
+import ControlCard from "./View/ViewController/ControlCard/ControlCard";
 
 sliderInit(ModelSliderStore.modelSliderState)
 new renderSlider('.my-slider-custom-plugin').getRenderSlider()
@@ -31,13 +32,18 @@ viewController.getViewController()
 
 let thumbPositionControllers = new ThumbPositionController('.view__controller-container',
                                                             'thumb__position-controller',
-                                                            "Thumbs position")
+                                                            )
 thumbPositionControllers.getThumbPositionController()
 
 let thumbPositionControllerContainerMin = new ThumbPositionControllerContainer('.thumb__position-controller',
                                                                                 'view__thumb-input-container',
                                                                                 "Thumbs position")
 thumbPositionControllerContainerMin.getThumbPositionControllerContainer()
+/*let thumbsControlCard = new ControlCard("view__thumb-input-container",
+                                            "thumbs",
+                                            ".thumb__position-controller",
+                                            "Thumbs")*/
+
 
 let  thumbPositionControllerContent = new ThumbPositionControllerContent('view__thumb-input-container',
                                                                             'topThumb',
@@ -47,6 +53,8 @@ let  thumbPositionControllerContent = new ThumbPositionControllerContent('view__
                                                                             ["min", "max"])
 thumbPositionControllerContent.addControlElement()
 thumbPositionControllerContent.observeThumbPosition()
+
+
 
 let scalePositionController = new ScalePositionController('.view__controller-container',
                                                             'scale__position-controller')

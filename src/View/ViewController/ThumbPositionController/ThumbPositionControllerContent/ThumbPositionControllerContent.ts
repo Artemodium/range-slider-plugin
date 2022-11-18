@@ -24,7 +24,7 @@ class ThumbPositionControllerContent {
 
     addControlElement(): JQuery {
         this.id.forEach(id => {
-            new ControlElement("thumb-input-container", id, '.view__thumb-input-container', "thumb value").getControlElement(id)
+            new ControlElement("thumb-input-container", id, '.view__thumb-input-container').getControlElement(id)
         })
         return
     }
