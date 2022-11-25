@@ -1,4 +1,4 @@
-import controlElement from "../ControlElement/ControlElement";
+import controlElement from "../ControlElements/ControlInputElement/ControlInputElement";
 
 class ControlCard{
     private readonly className: string

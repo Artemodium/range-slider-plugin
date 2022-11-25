@@ -1,11 +1,14 @@
 import {ActionType} from "../../slider-app-types/slider-app-types";
+
 import {
     ADD_THUMB,
+    SCALE_THUMB_POSITION_PLUS_MINUS,
     SET_SLIDER_SCALE_SIZE_NUMBER,
-    SET_SLIDER_SCALE_SIZE_PX, SET_THUMB_LOCK, SET_VIEW_RULER,
+    SET_SLIDER_SCALE_SIZE_PX,
+    SET_THUMB_LOCK,
+    SET_VIEW_RULER,
     THUMB_POSITION_CHANGE
 } from "../ModelSliderActions/ModelSliderActions";
-import $ from "jquery";
 
 let modelSliderStore = <any>{
         modelSliderState: {
@@ -34,6 +37,7 @@ let modelSliderStore = <any>{
                                                                         end: action.end,
                                                                         step: action.step}
                 case THUMB_POSITION_CHANGE:
+                    //console.log(this.modelSliderState.sliderThumbs)
                     if (!modelSliderStore.isThumbLock()) {
                         return this.modelSliderState.sliderThumbs[action.id] = {
                             thumbPosition: `left: ${action.val < 0 ? 0 : action.val > this.getSliderScaleSize() - 5 ? this.getSliderScaleSize() - 5 : action.val}px`,
@@ -52,6 +56,18 @@ let modelSliderStore = <any>{
                     return this.modelSliderState.lock.lock = action.lock
                 case SET_VIEW_RULER:
                     return {...this.modelSliderState.ruler, start: action.start, end: action.end, step: action.step, width: action.width}
+                case SCALE_THUMB_POSITION_PLUS_MINUS:
+                        let mod = action.plus ? 1 : -1
+                        let val = action.val * mod
+                        let PX_val = Math.round(this.getSliderScaleSize() / 100) * mod
+                        let relative_val = val / PX_val * mod
+                            return {
+                                ...this.modelSliderState.sliderThumbs[action.id] = {
+                                    thumbPosition: `left: ${this.getThumbPosition(action.id) + PX_val}px`,
+                                    relativePosition: this.getRelativeThumbPosition(action.id) + relative_val,
+                                    scalePosition: this.getThumbScalePosition(action.id) + val
+                                }
+                            }
                 default:
                     return this.modelSliderState
             }
@@ -66,13 +82,16 @@ let modelSliderStore = <any>{
                     this.getSliderScaleRange().end
         },
         getThumbPosition(id: string): number {
-            return parseInt(this.modelSliderState.sliderThumbs[id].thumbPosition.match(/[-]*[0-9]+/))
+            return parseInt(this.modelSliderState.sliderThumbs[id].thumbPosition.match(/-*[0-9]+/))
         },
         getRelativeThumbPosition(id: string){
             return this.modelSliderState.sliderThumbs[id].relativePosition
         },
         getThumbStylePosition(id: string): string {
             return this.modelSliderState.sliderThumbs[id].thumbPosition
+        },
+        getThumbScalePosition(id: string): number {
+            return this.modelSliderState.sliderThumbs[id].scalePosition
         },
         getThumbsDifference(): number {
             return this.getThumbPosition('max') - this.getThumbPosition('min')
@@ -89,20 +108,7 @@ let modelSliderStore = <any>{
         getSliderScaleLeftOffset(): number {
             return parseInt(this.modelSliderState.sliderScale.left)
         },
-        getThumbScalePosition(id: string): number {
-            return this.modelSliderState.sliderThumbs[id].scalePosition
-        },
-        thumbsObserver(observableFunc: any): void {
-            let observer = new MutationObserver(observableFunc)
-            $(".view__thumb").each((thumb: number) => {
-                observer.observe($(".view__thumb")[thumb], {attributes: true})})
-        },
-        getScaleRulerDelimiter(): number {
-            return this.modelSliderState.sliderScaleRange.end/10
-        },
-        getRuleSizes(): {start: number, end: number, step: number, width: number} {
-            return this.modelSliderState.ruler
-        }
 }
+
 
 export default modelSliderStore

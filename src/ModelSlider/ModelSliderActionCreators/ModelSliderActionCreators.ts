@@ -1,5 +1,5 @@
 import {
-    ADD_THUMB,
+    ADD_THUMB, SCALE_THUMB_POSITION_PLUS_MINUS,
     SET_SLIDER_SCALE_SIZE_NUMBER,
     SET_SLIDER_SCALE_SIZE_PX, SET_THUMB_LOCK, SET_VIEW_RULER,
     THUMB_POSITION_CHANGE
@@ -44,3 +44,10 @@ export let setViewRuler = (start: number, end: number, step: number, width?: num
     step: step,
     width: width
 } as const )
+
+export const onThumbPositionPlusMinus = (id: string, val: number, plus: boolean) => ({
+    type: SCALE_THUMB_POSITION_PLUS_MINUS,
+    id: id,
+    val: val,
+    plus: plus
+} as const)

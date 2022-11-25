@@ -10,12 +10,13 @@ import ScalePositionControllerContainer
 import ThumbPositionController from './View/ViewController/ThumbPositionController/ThumbPositionController';
 import ViewController from './View/ViewController/ViewController';
 import ViewRuler from "./View/ViewSlider/ViewRuler/ViewRuler";
-import sliderInit from "./renderSlider/SliderInit";
-import ModelSliderStore from "./ModelSlider/ModelSlideStore/ModelSliderStore";
-import ControlElement from "./View/ViewController/ControlElement/ControlElement";
-import ControlCard from "./View/ViewController/ControlCard/ControlCard";
+import SliderInit from "./renderSlider/SliderInit";
+import modelSliderStore from "./ModelSlider/ModelSlideStore/ModelSliderStore";
+import ControlElement from "./View/ViewController/ControlElements/ControlInputElement/ControlInputElement";
 
-sliderInit(ModelSliderStore.modelSliderState)
+
+SliderInit.startSliderInit(modelSliderStore.modelSliderState)
+
 new renderSlider('.my-slider-custom-plugin').getRenderSlider()
 
 let viewSlider = new ViewSlider('.my-slider-custom-app',
@@ -39,28 +40,24 @@ let thumbPositionControllerContainerMin = new ThumbPositionControllerContainer('
                                                                                 'view__thumb-input-container',
                                                                                 "Thumbs position")
 thumbPositionControllerContainerMin.getThumbPositionControllerContainer()
-/*let thumbsControlCard = new ControlCard("view__thumb-input-container",
-                                            "thumbs",
-                                            ".thumb__position-controller",
-                                            "Thumbs")*/
-
 
 let  thumbPositionControllerContent = new ThumbPositionControllerContent('view__thumb-input-container',
                                                                             'topThumb',
                                                                             'control-input__value',
                                                                             'bottomThumb',
                                                                             '.view__thumb',
-                                                                            ["min", "max"])
+                                                                            ["min", "max"],
+                                                                            "thumb-input-container",
+                                                                            '.view__thumb-input-container')
 thumbPositionControllerContent.addControlElement()
 thumbPositionControllerContent.observeThumbPosition()
-
-
 
 let scalePositionController = new ScalePositionController('.view__controller-container',
                                                             'scale__position-controller')
 scalePositionController.getScalePositionController()
 let scalePositionControllerContainer = new ScalePositionControllerContainer('.scale__position-controller',
-                                                                            'scale__position-controller-content')
+                                                                            'scale__position-controller-content',
+                                                                            "Scale position")
 scalePositionControllerContainer.getScalePositionControllerContainer()
 
 let scalePositionControllerContent = new ScalePositionControllerContent('.scale__position-controller-content',
@@ -69,7 +66,8 @@ let scalePositionControllerContent = new ScalePositionControllerContent('.scale_
                                                                           ['min', 'max'],
                                                                           'my-slider-custom-app__view'
 )
-scalePositionControllerContent.getScalePositionControllerContent()
+scalePositionControllerContent.addControlElement()
+//scalePositionControllerContent.getScalePositionControllerContent()
 scalePositionControllerContent.setScaleSize()
 scalePositionControllerContent.observeScaleSize()
 new ViewRuler('.view__ruler-container', 'view__ruler').getViewRuler()

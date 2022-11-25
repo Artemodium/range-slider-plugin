@@ -5,6 +5,8 @@ import {
     setSliderScaleSizePx
 } from "../../../../ModelSlider/ModelSliderActionCreators/ModelSliderActionCreators";
 import modelSliderStore from "../../../../ModelSlider/ModelSlideStore/ModelSliderStore";
+import ControlInputElement from "../../ControlElements/ControlInputElement/ControlInputElement";
+import ControlInputThumbs from "../../ControlElements/ControlLogic/ControlInputThumbs/ControlInputThumbs";
 
 class ScalePositionControllerContent {
     private readonly selector: string
@@ -19,6 +21,13 @@ class ScalePositionControllerContent {
         this.thumb = thumb
         this.scale = scale
         this.thumbId = thumbId
+    }
+
+    addControlElement(): JQuery {
+        let controlElement = new ControlInputElement(this.element, this.selector, "Scale size PX")
+        console.log(this.element, this.selector,)
+        controlElement.getControlElement('is')
+        return
     }
 
     getScalePositionControllerContent(): JQuery {
