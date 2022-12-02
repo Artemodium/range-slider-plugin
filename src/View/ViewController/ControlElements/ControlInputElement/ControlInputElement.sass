@@ -1,16 +1,21 @@
-.input-control__title
+.thumb-input__element-title,
+.input-control__title,
+.scale-input__element-title
   font-family: Montserrat, sans-serif
   font-size: 12px
   font-weight: 600
   margin: 0
-  min-width: 30px
+  min-width: 165px
 
-.input-control__element
+.thumb-input__element,
+.scale-input__element
   display: flex
   margin-left: 15px
 
 .input-control__value-minus,
-.input-control__value-plus
+.input-control__value-plus,
+.input-control-selectable__value-check,
+.input-control__colorable-button
   display: flex
   justify-content: center
   align-items: center
@@ -25,7 +30,11 @@
   line-height: 10px
   cursor: pointer
 
-.control-input__value
+.input-control_changeable,
+.thumb-input__element_colorable-text,
+.scale-input__element-text,
+.thumb-input-value_changeable,
+.scale-input-value_changeable
   height: 20px
   width: 60px
   text-align: center
@@ -35,3 +44,49 @@
   border: 1px solid #ddd
   border-radius: 4px
   padding: 0
+
+.control-input-selectable,
+.control-input-displayed__value
+  height: 20px
+  width: 80px
+  text-align: center
+  font-family: Montserrat, sans-serif
+  font-size: 13px
+  font-weight: 600
+  border: 1px solid #ddd
+  border-radius: 4px
+  padding: 0
+
+.control-input-displayed__value
+  width: 100px
+
+.thumb-input__element_colorable-container
+.scale-input__element-container
+  width: 20px
+  height: 20px
+  display: flex
+  flex-direction: column
+  align-items: center
+  gap: 30px
+
+.thumb-input__element_colorable-color,
+.scale-input__element-color
+  -webkit-appearance: none
+  -moz-appearance: none
+  appearance: none
+  width: 20px
+  height: 20px
+  border-radius: 4px
+  border: 1px solid #ddd
+  background-color: transparent
+  cursor: pointer
+
+.thumb-input__element_colorable-color::-webkit-color-swatch,
+.scale-input__element-color::-webkit-color-swatch
+  border-radius: 4px
+  border: 1px solid #ddd
+
+.thumb-input__element_colorable-color::-moz-color-swatch,
+.scale-input__element-color::-moz-color-swatch
+  border-radius: 4px
+  border: 1px solid #ddd

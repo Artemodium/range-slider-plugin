@@ -1,5 +1,3 @@
-import ModelSliderStore from "../../../../ModelSlider/ModelSlideStore/ModelSliderStore"
-
 const $ = require('jquery')
 
 class ViewScaleTrack {

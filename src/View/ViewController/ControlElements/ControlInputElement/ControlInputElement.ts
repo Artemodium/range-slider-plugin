@@ -5,34 +5,103 @@ class ControlInputElement {
     private readonly className: string
     private readonly containerName: string
     private readonly title: string
+    private readonly plusClassName: string
+    private readonly minusClassName: string
     private readonly id?: string
+    private readonly elementInputValue?: string
+    private readonly modificator?: string
+    private readonly inputElementClass: string
 
     constructor(className: string,
                 containerName: string,
                 title: string,
-                id?: string) {
+                plusClassName: string,
+                minusClassName: string,
+                id?: string,
+                elementInputValue?: string,
+                modificator?: string,
+                inputElementClass?: string,) {
         this.className = className
         this.containerName = containerName
         this.title = title
+        this.plusClassName = plusClassName
+        this.minusClassName = minusClassName
         this.id = id
+        this.elementInputValue = elementInputValue
+        this.modificator = modificator
+        this.inputElementClass = inputElementClass
     }
 
-    getControlElement(id?: string): JQuery{
+    getControlElementChangeable(id?: string): JQuery{
+        let controlElement = document.createElement("div")
+        controlElement.setAttribute("class", this.className)
+        controlElement.setAttribute("id", id)
+        controlElement.innerHTML =
+                            `<div class= "${this.inputElementClass}-title">
+                                <span>${this.title}:
+                            </div>
+                            <div class= "${this.inputElementClass} ${this.inputElementClass}${this.modificator}">
+                                <div id="${id}" class="${this.minusClassName}">
+                                    remove
+                                </div>
+                                <input id="${id}" class="${this.elementInputValue} ${this.elementInputValue}${this.modificator}"/>
+                                <div id="${id}" class="${this.plusClassName}">
+                                    add
+                                </div>
+                            </div>`
+
+        return $(controlElement).appendTo($(this.containerName))
+    }
+    getControlElementSelectable(id?: string): JQuery{
         let controlElement = document.createElement("div")
         controlElement.setAttribute("class", this.className)
         controlElement.setAttribute("id", id)
 
         controlElement.innerHTML =
-                            `<div class= "${this.className} input-control__title">
+            `<div class= "${this.className} input-control__title">
                                 <span>${this.title}:
                             </div>
-                            <div class= "${this.className} input-control__element">
-                                <div id="${id}" class="${this.className} input-control__value-minus">
-                                    remove
+                            <div class= "${this.className} input-control__element_selectable">
+                                <input id="${id}" class="${this.className} control-input-selectable" type="color"/>
+                                <div id="${id}" class="${this.className} input-control-selectable__value-check">
+                                    check
                                 </div>
-                                <input id="${id}" class="${this.className} control-input__value"/>
-                                <div id="${id}" class="${this.className} input-control__value-plus">
-                                    add
+                            </div>`
+
+        return $(controlElement).appendTo($(this.containerName))
+    }
+
+    getControlElementDisplayed(id?: string): JQuery{
+        let controlElement = document.createElement("div")
+        controlElement.setAttribute("class", this.className)
+        controlElement.setAttribute("id", id)
+
+        controlElement.innerHTML =
+            `<div class= "${this.className} input-control__title">
+                                <span>${this.title}:
+                            </div>
+                            <div id="${id}" class= "${this.inputElementClass} input-control-displayed__element">
+                                <input id="${id}" class="${this.className} control-input-displayed__value"/>
+                            </div>`
+
+        return $(controlElement).appendTo($(this.containerName))
+    }
+    getControlElementColorable(id?: string): JQuery{
+        let controlElement = document.createElement("div")
+        controlElement.setAttribute("class", this.className)
+        controlElement.setAttribute("id", id)
+
+        controlElement.innerHTML =
+            `<div class= "${this.inputElementClass}-title">
+                                <span>${this.title}:
+                            </div>
+                            <div class= "${this.inputElementClass} ${this.inputElementClass}${this.modificator}">
+                                <div id="${id}" class="${this.inputElementClass}-container ${this.inputElementClass}${this.modificator}-container">
+                                    <input id="${id}" class="${this.inputElementClass}-color ${this.inputElementClass}${this.modificator}-color" type="color" value="#ff00ff">
+                                </div>
+                                <input id="${id}" class="${this.inputElementClass}-text ${this.inputElementClass}${this.modificator}-text" type="text" />
+                                <div id="${id}" class="${this.plusClassName}">
+                                    check
                                 </div>
                             </div>`
 

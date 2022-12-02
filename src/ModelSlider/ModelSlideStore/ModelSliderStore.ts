@@ -5,6 +5,7 @@ import {
     SCALE_THUMB_POSITION_PLUS_MINUS,
     SET_SLIDER_SCALE_SIZE_NUMBER,
     SET_SLIDER_SCALE_SIZE_PX,
+    SET_SLIDER_SCALE_SIZE_RELATIVE,
     SET_THUMB_LOCK,
     SET_VIEW_RULER,
     THUMB_POSITION_CHANGE
@@ -21,13 +22,13 @@ let modelSliderStore = <any>{
             lock: { }
         },
         dispatch(action: ActionType){
-            //console.log(this.modelSliderState.sliderThumbs)
+            //console.log(this.modelSliderState)
             switch (action.type) {
-                case ADD_THUMB:
+                /*case ADD_THUMB:
                     return this.modelSliderState.sliderThumbs={
                         ...this.modelSliderState.sliderThumbs, [action.id]: {thumbPosition: action.position,
                             relativePosition: parseInt(action.position.match(/[-]*[0-9]+/)[0])/this.getSliderScaleSize(),
-                            scalePosition: action.scalePosition}}
+                            scalePosition: action.scalePosition}}*/
                 case SET_SLIDER_SCALE_SIZE_PX:
                     //console.log(this.modelSliderState.sliderScale.width)
                     return this.modelSliderState.sliderScale = {...this.modelSliderState.sliderScale, left: action.left, width: action.width}
@@ -36,6 +37,9 @@ let modelSliderStore = <any>{
                                                                         start: action.start,
                                                                         end: action.end,
                                                                         step: action.step}
+                case SET_SLIDER_SCALE_SIZE_RELATIVE:
+                    //console.log(this.modelSliderState.sliderScale)
+                    return this.modelSliderState.sliderScale = {...this.modelSliderState.sliderScale, widthRelative: action.width}
                 case THUMB_POSITION_CHANGE:
                     //console.log(this.modelSliderState.sliderThumbs)
                     if (!modelSliderStore.isThumbLock()) {
@@ -96,11 +100,17 @@ let modelSliderStore = <any>{
         getThumbsDifference(): number {
             return this.getThumbPosition('max') - this.getThumbPosition('min')
         },
+        getThumbsDifferenceOnScale(): number {
+            return this.getThumbScalePosition('max') - this.getThumbScalePosition('min')
+        },
         isThumbLock(): boolean {
             return this.modelSliderState.lock.lock
         },
         getSliderScaleSize(): string {
             return this.modelSliderState.sliderScale.width
+        },
+        getSliderScaleSizeRelative(): number {
+            return this.modelSliderState.sliderScale.widthRelative
         },
         getSliderScaleRange(): {start: number, end: number} {
             return this.modelSliderState.sliderScaleRange

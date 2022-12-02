@@ -10,9 +10,6 @@ class ScalePositionControllerContainer {
         this.element = element
         this.title = title
     }
-    /*const container = document.createElement("div")
-    container.setAttribute("class", `${this.element}`)
-    container.innerHTML = `<div class="${this.element}__title">${this.title}</div>`*/
 
     getScalePositionControllerContainer(): JQuery {
         const container = document.createElement("div")
