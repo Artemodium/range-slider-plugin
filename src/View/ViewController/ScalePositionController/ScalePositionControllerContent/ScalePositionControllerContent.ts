@@ -11,75 +11,38 @@ import ControlInputScale from "../../ControlElements/ControlLogic/ControlInputSc
 class ScalePositionControllerContent {
     private readonly selector: string
     private readonly element: string
-    private  readonly scale: string
+    private  readonly slider: string
     private readonly thumb: string
     private readonly thumbId: string[]
     private readonly parameters: {[key:string]: string}[]
 
-    constructor(selector: string, element: string, thumb: string, thumbId: string[], parameters: {[key:string]: string}[], scale?: string) {
+    constructor(selector: string, element: string, thumb: string, thumbId: string[], parameters: {[key:string]: string}[], slider?: string) {
         this.selector = selector
         this.element = element
         this.thumb = thumb
-        this.scale = scale
+        this.slider = slider
         this.thumbId = thumbId
         this.parameters = parameters
     }
 
-    addControlElement(): JQuery {
-        this.parameters.forEach(parameter => {
-            let controlElement = new ControlInputElement(this.element,
-                                                        this.selector,
-                                                        parameter.id,
-                                                        "input-control__value-plus",
-                                                        "input-control__value-minus",
-                                                        parameter.id,
-                                                        "scale-input-value",
-                                                        parameter.inputVariant,
-                                                        "scale-input__element")
-            let inputControl = new ControlInputScale("my-slider-custom-app__view",
-                                                        "scale__position-controller-container",
-                                                        "scale-input-value",
-                                                        parameter.id,
-                                                        "input-control__value-plus",
-                                                        "input-control__value-minus")
-            switch (parameter.inputVariant) {
-                case "_changeable":
-                    controlElement.getControlElementChangeable(parameter.id)
-                    break
-                case "_selectable":
-                    controlElement.getControlElementSelectable(parameter.id)
-                    break
-                case "_colorable":
-                    controlElement.getControlElementColorable(parameter.id)
-                    break
-                case "_displayed":
-                    controlElement.getControlElementDisplayed(parameter.id)
-                    break
-            }
-            inputControl.getControl()
-        })
-        return
-    }
-
-    setScaleSize(scaleId?: string){
-        let scale = $("." + this.scale)[0]
+    setScaleSize(scaleId: string, inputValue: string){
+        let scale = $("." + this.slider)[0]
         let left = scale.offsetLeft
         let width = scale.offsetWidth
         ModelSliderStore.dispatch(setSliderScaleSizePx(left, width))
-        $(`#${scaleId}.scale-input-value`).attr("value",  `${ModelSliderStore.getSliderScaleSizeRelative()}%`)
-        $(`#${scaleId}.${this.element}`).attr("value", ModelSliderStore.getSliderScaleSize())
+        $(`#${scaleId}.${inputValue}`).attr("value", ModelSliderStore.getSliderScaleSize())
         this.thumbId.forEach((id) => {
             ModelSliderStore.dispatch(onThumbPosChange(id, width * modelSliderStore.getRelativeThumbPosition(id)))
             $(`#${id}${this.thumb}`).attr("style", ModelSliderStore.getThumbStylePosition(id)) // thumbs init
         })
     }
 
-    observeScaleSize(scaleId?: string) {
+    observeScaleSize(scaleId: string, inputValue: string) {
         let observer = new ResizeObserver(obj => {
             const e = obj[0];
-            this.setScaleSize(scaleId)
+            this.setScaleSize(scaleId, inputValue)
         })
-        observer.observe($("." + this.scale)[0])
+        observer.observe($("." + this.slider)[0])
     }
 }
 

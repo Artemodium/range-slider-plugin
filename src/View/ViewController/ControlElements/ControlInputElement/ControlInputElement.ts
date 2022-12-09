@@ -77,11 +77,11 @@ class ControlInputElement {
         controlElement.setAttribute("id", id)
 
         controlElement.innerHTML =
-            `<div class= "${this.className} input-control__title">
+            `<div class= "${this.className}-title">
                                 <span>${this.title}:
                             </div>
-                            <div id="${id}" class= "${this.inputElementClass} input-control-displayed__element">
-                                <input id="${id}" class="${this.className} control-input-displayed__value"/>
+                            <div id="${id}" class= "${this.inputElementClass} ${this.inputElementClass}${this.modificator}">
+                                <input id="${id}" class="${this.elementInputValue} ${this.elementInputValue}${this.modificator}"/>
                             </div>`
 
         return $(controlElement).appendTo($(this.containerName))

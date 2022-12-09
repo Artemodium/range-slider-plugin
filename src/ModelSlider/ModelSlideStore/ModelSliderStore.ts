@@ -117,7 +117,7 @@ let modelSliderStore = <any>{
         },
         getSliderScaleLeftOffset(): number {
             return parseInt(this.modelSliderState.sliderScale.left)
-        },
+        }
 }
 
 
