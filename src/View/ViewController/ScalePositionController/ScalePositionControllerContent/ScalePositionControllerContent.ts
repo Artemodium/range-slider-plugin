@@ -14,15 +14,13 @@ class ScalePositionControllerContent {
     private  readonly slider: string
     private readonly thumb: string
     private readonly thumbId: string[]
-    private readonly parameters: {[key:string]: string}[]
 
-    constructor(selector: string, element: string, thumb: string, thumbId: string[], parameters: {[key:string]: string}[], slider?: string) {
+    constructor(selector: string, element: string, thumb: string, thumbId: string[], slider?: string) {
         this.selector = selector
         this.element = element
         this.thumb = thumb
         this.slider = slider
         this.thumbId = thumbId
-        this.parameters = parameters
     }
 
     setScaleSize(scaleId: string, inputValue: string){
@@ -33,7 +31,7 @@ class ScalePositionControllerContent {
         $(`#${scaleId}.${inputValue}`).attr("value", ModelSliderStore.getSliderScaleSize())
         this.thumbId.forEach((id) => {
             ModelSliderStore.dispatch(onThumbPosChange(id, width * modelSliderStore.getRelativeThumbPosition(id)))
-            $(`#${id}${this.thumb}`).attr("style", ModelSliderStore.getThumbStylePosition(id)) // thumbs init
+            $(`#${id}${this.thumb}`)[0].style.left = `${ModelSliderStore.getThumbPosition(id)}px` //thumbs init
         })
     }
 

@@ -1,20 +1,27 @@
 import {ActionType} from "../../slider-app-types/slider-app-types";
 
 import {
-    ADD_THUMB,
     SCALE_THUMB_POSITION_PLUS_MINUS,
     SET_SLIDER_SCALE_SIZE_NUMBER,
     SET_SLIDER_SCALE_SIZE_PX,
     SET_SLIDER_SCALE_SIZE_RELATIVE,
     SET_THUMB_LOCK,
     SET_VIEW_RULER,
-    THUMB_POSITION_CHANGE
+    THUMB_BORDER_RADIUS_CHANGE,
+    THUMB_BORDER_WIDTH_CHANGE,
+    THUMB_HEIGHT_CHANGE,
+    THUMB_POSITION_CHANGE,
+    THUMB_WIDTH_CHANGE,
+    TOP_THUMB_POSITION_CHANGE
 } from "../ModelSliderActions/ModelSliderActions";
 
 let modelSliderStore = <any>{
         modelSliderState: {
-            sliderThumbs: { max: { },
-                            min: { },
+            sliderThumbs: {
+                max: { },
+                min: { },
+                metrics: { },
+                styles: { }
             },
             sliderScaleRange: { },
             sliderScale: { },
@@ -72,6 +79,23 @@ let modelSliderStore = <any>{
                                     scalePosition: this.getThumbScalePosition(action.id) + val
                                 }
                             }
+                case THUMB_WIDTH_CHANGE:
+                    return { ...this.modelSliderState.sliderThumbs.metrics.width += action.val }
+                case THUMB_HEIGHT_CHANGE:
+                    //console.log(this.modelSliderState.sliderThumbs.metrics.height, this.modelSliderState.sliderThumbs.metrics.top)
+                    this.modelSliderState.sliderThumbs.metrics.height += action.val
+                    this.modelSliderState.sliderThumbs.metrics.top -= action.val/1.5
+                    break
+                case THUMB_BORDER_WIDTH_CHANGE:
+                    this.modelSliderState.sliderThumbs.metrics.top -= action.val
+                    this.modelSliderState.sliderThumbs.metrics.borderWidth += action.val
+                    break
+                case THUMB_BORDER_RADIUS_CHANGE:
+                    this.modelSliderState.sliderThumbs.metrics.borderRadius += action.val
+                    break
+                case TOP_THUMB_POSITION_CHANGE:
+                    this.modelSliderState.sliderThumbs.metrics.top += action.val
+                    break
                 default:
                     return this.modelSliderState
             }
@@ -93,6 +117,21 @@ let modelSliderStore = <any>{
         },
         getThumbStylePosition(id: string): string {
             return this.modelSliderState.sliderThumbs[id].thumbPosition
+        },
+        getThumbWidth(): number{
+            return this.modelSliderState.sliderThumbs.metrics.width
+        },
+        getThumbHeight(): number{
+            return this.modelSliderState.sliderThumbs.metrics.height
+        },
+        getThumbBorderWidth(): number{
+            return this.modelSliderState.sliderThumbs.metrics.borderWidth
+        },
+        getThumbBorderRadius(): number{
+            return this.modelSliderState.sliderThumbs.metrics.borderRadius
+        },
+        getThumbTop(): number{
+            return this.modelSliderState.sliderThumbs.metrics.top
         },
         getThumbScalePosition(id: string): number {
             return this.modelSliderState.sliderThumbs[id].scalePosition
@@ -117,7 +156,7 @@ let modelSliderStore = <any>{
         },
         getSliderScaleLeftOffset(): number {
             return parseInt(this.modelSliderState.sliderScale.left)
-        }
+        },
 }
 
 

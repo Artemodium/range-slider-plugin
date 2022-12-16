@@ -11,12 +11,6 @@ class ThumbPositionController {
         this.title = title
     }
 
-    getThumbPositionControllerTitle(): JQuery {
-        return $('<h5>', {
-            text: this.title
-        }).appendTo(`${this.element}`)
-    }
-
     getThumbPositionController(): JQuery {
         return $('<div>', {
             class: this.element

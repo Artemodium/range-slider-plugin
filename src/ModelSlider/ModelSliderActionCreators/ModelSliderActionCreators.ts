@@ -1,8 +1,15 @@
 import {
-    ADD_THUMB, SCALE_THUMB_POSITION_PLUS_MINUS,
+    ADD_THUMB,
+    SCALE_THUMB_POSITION_PLUS_MINUS,
     SET_SLIDER_SCALE_SIZE_NUMBER,
-    SET_SLIDER_SCALE_SIZE_PX, SET_SLIDER_SCALE_SIZE_RELATIVE, SET_THUMB_LOCK, SET_VIEW_RULER,
-    THUMB_POSITION_CHANGE
+    SET_SLIDER_SCALE_SIZE_PX,
+    SET_SLIDER_SCALE_SIZE_RELATIVE,
+    SET_THUMB_LOCK,
+    SET_VIEW_RULER, THUMB_BORDER_RADIUS_CHANGE,
+    THUMB_BORDER_WIDTH_CHANGE,
+    THUMB_HEIGHT_CHANGE,
+    THUMB_POSITION_CHANGE,
+    THUMB_WIDTH_CHANGE, TOP_THUMB_POSITION_CHANGE
 } from "../ModelSliderActions/ModelSliderActions";
 
 export let addThumb = (className: string, id:string, position: string, scalePosition: number) => ({
@@ -55,4 +62,29 @@ export const onThumbPositionPlusMinus = (id: string, val: number, plus: boolean)
     id: id,
     val: val,
     plus: plus
+} as const)
+
+export const onThumbWidthChange = (val: number) => ({
+    type: THUMB_WIDTH_CHANGE,
+    val: val
+} as const)
+
+export const onThumbHeightChange = (val: number) => ({
+    type: THUMB_HEIGHT_CHANGE,
+    val: val
+} as const)
+
+export const onThumbBorderWidthChange = (val: number) => ({
+    type: THUMB_BORDER_WIDTH_CHANGE,
+    val: val
+} as const)
+
+export const onThumbBorderRadiusChange = (val: number) => ({
+    type: THUMB_BORDER_RADIUS_CHANGE,
+    val: val
+} as const)
+
+export const onThumbTopPositionChange = (val: number) => ({
+    type: TOP_THUMB_POSITION_CHANGE,
+    val: val
 } as const)

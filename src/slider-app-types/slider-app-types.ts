@@ -6,7 +6,11 @@ import {
     SET_THUMB_LOCK,
     SET_VIEW_RULER,
     SCALE_THUMB_POSITION_PLUS_MINUS,
-    SET_SLIDER_SCALE_SIZE_RELATIVE
+    SET_SLIDER_SCALE_SIZE_RELATIVE,
+    THUMB_WIDTH_CHANGE,
+    THUMB_HEIGHT_CHANGE,
+    THUMB_BORDER_WIDTH_CHANGE,
+    THUMB_BORDER_RADIUS_CHANGE, TOP_THUMB_POSITION_CHANGE
 } from "../ModelSlider/ModelSliderActions/ModelSliderActions";
 
 export type thumbPositionChangeActionType = {
@@ -61,6 +65,31 @@ export type scaleThumbPositionPlusMinus = {
     plus: boolean
 }
 
+export type thumbWidthChange = {
+    type: typeof THUMB_WIDTH_CHANGE
+    val: number
+}
+
+export type thumbHeightChange = {
+    type: typeof THUMB_HEIGHT_CHANGE
+    val: number
+}
+
+export type thumbBorderWidthChange = {
+    type: typeof THUMB_BORDER_WIDTH_CHANGE
+    val: number
+}
+
+export type thumbBorderRadiusChange = {
+    type: typeof THUMB_BORDER_RADIUS_CHANGE
+    val: number
+}
+
+export type topThumbPositionChange = {
+    type: typeof TOP_THUMB_POSITION_CHANGE
+    val: number
+}
+
 export type ActionType = thumbPositionChangeActionType
                         | addThumbActionType
                         | setSliderScaleSizePX
@@ -69,3 +98,9 @@ export type ActionType = thumbPositionChangeActionType
                         | setViewRuler
                         | scaleThumbPositionPlusMinus
                         | setSliderScaleSizeRelative
+                        | thumbWidthChange
+                        | thumbHeightChange
+                        | thumbBorderWidthChange
+                        | thumbBorderRadiusChange
+                        | topThumbPositionChange
+

@@ -6,7 +6,7 @@ class ControlCard{
     private readonly selector: string
     private readonly element: string
     private readonly controlElement: string
-    private readonly templateParameters: {[key:string]: string}[]
+    private readonly templateParameters: { [key:string]: string }[]
     private readonly controlInputElementContainer: string
     private readonly inputValue: string
     private readonly inputControlType: string
@@ -14,10 +14,11 @@ class ControlCard{
     constructor(selector: string,
                 element: string,
                 controlElement: string,
-                templateParameters: {[key:string]: string}[],
+                templateParameters: {[key:string]: string }[],
                 controlInputElementContainer: string,
                 inputValue: string,
-                inputControlType: string) {
+                inputControlType: string,
+                ) {
         this.selector = selector
         this.element = element
         this.controlElement = controlElement
@@ -38,21 +39,25 @@ class ControlCard{
                 parameter.id,
                 this.inputValue,
                 parameter.inputVariant,
-                this.controlInputElementContainer
+                parameter.options
             )
 
             switch (parameter.inputVariant) {
                 case "_changeable":
                     controlElement.getControlElementChangeable(parameter.id)
+                    controlElement.inputValueInit()
                     break
                 case "_selectable":
                     controlElement.getControlElementSelectable(parameter.id)
+                    controlElement.inputValueInit()
                     break
                 case "_colorable":
                     controlElement.getControlElementColorable(parameter.id)
+                    controlElement.inputValueInit()
                     break
                 case "_displayed":
                     controlElement.getControlElementDisplayed(parameter.id)
+                    controlElement.inputValueInit()
                     break
             }
 
@@ -62,13 +67,15 @@ class ControlCard{
                         this.selector,
                         parameter.id,
                         this.controlElement,
+                        parameter.dataExchangeMethod,
+                        this.inputValue,
                         "input-control__value-plus",
                         "input-control__value-minus").getControl()
                     break
                 case ("scale"):
                     new ControlInputScale(
                         'my-slider-custom-app__view',
-                        "scale__position-controller-container",
+                        "view__scale-input-container",
                         "scale-input-value",
                         parameter.id,
                         "input-control__value-plus",
