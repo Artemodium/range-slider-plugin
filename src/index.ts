@@ -55,8 +55,8 @@ let thumbsControlCard = new ControlCard(
         {"title":"Border width thumb", "id": "thumb-border-width", "inputVariant": "_changeable", "dataExchangeMethod": "thumb-border-width"},
         {"title":"Border radius thumb", "id": "thumb-border-radius", "inputVariant": "_changeable","dataExchangeMethod": "thumb-border-radius"},
         {"title":"Top thumb position", "id": "top-thumb-position", "inputVariant": "_changeable","dataExchangeMethod": "top-thumb-position"},
-        {"title":"Border color thumb", "id": "thumb-border-color", "inputVariant": "_colorable", "type": ""},
-        {"title":"Background color thumb", "id": "thumb-background-color", "inputVariant": "_colorable"},],
+        {"title":"Border color thumb", "id": "thumb-border-color", "inputVariant": "_colorable", "dataExchangeMethod": "thumb-border-color", "type": ""},
+        {"title":"Background color thumb", "id": "thumb-background-color", "inputVariant": "_colorable", "dataExchangeMethod": "thumb-background-color"},],
     "thumb-input__element",
     "thumb-input-value",
     "thumbs")

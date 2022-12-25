@@ -7,6 +7,7 @@ import {
     onThumbWidthChange
 } from "../../../../../ModelSlider/ModelSliderActionCreators/ModelSliderActionCreators"
 import controlInputElement from "../../ControlInputElement/ControlInputElement";
+import {event} from "jquery";
 
 class ControlInputThumbs {
     private readonly controlBlockArea: string
@@ -80,7 +81,7 @@ class ControlInputThumbs {
         inputHeightSelector.map(thumb => {
             inputHeightSelector[thumb].style.top = `${ModelSliderStore.getThumbTop()}px`
         })
-        $(`#${id}.${this.inputValue}`).attr("value", ModelSliderStore.getThumbTop())
+        $(`#${id}.${this.inputValue}`).attr("value", ModelSliderStore.getThumbTop().toFixed(1))
     }
 
     getControl() {
@@ -148,14 +149,30 @@ class ControlInputThumbs {
                     break
                 case "top-thumb-position":
                     if (e.target === document.querySelector(`#${this.id}.${this.plusClassName}`) && this.id === "top-thumb-position") {
-                        if (ModelSliderStore.getThumbTop()<10) {
-                            this.thumbTopChange(this.id, 1/2)
+                        if (ModelSliderStore.getThumbTop() < 10) {
+                            this.thumbTopChange(this.id, 0.1)
                         }
                     } else if(e.target === document.querySelector(`#${this.id}.${this.minusClassName}`) && this.id === "top-thumb-position") {
-                        if (ModelSliderStore.getThumbTop()>-5) {
-                            this.thumbTopChange(this.id, -1/2)
+                        if (ModelSliderStore.getThumbTop() > -5) {
+                            this.thumbTopChange(this.id, -0.1)
                         }
                     }
+                    break
+                case "thumb-border-color":
+                    if (e.target === document.querySelector(`#${this.id}.thumb-input__element-color`) && this.id === "thumb-border-color") {
+                        let theInput = document.querySelector(`#${this.id}.thumb-input__element-color`)
+                        theInput.addEventListener("input", updateFirst, false)
+                        console.log(theInput)
+                    }
+                function updateFirst(event: any) {
+                    const p = $(document.querySelector(`#${this.id}.thumb-input__element-color`))
+                    if (p) {
+                        console.log(event.target.value)
+                        p.val(event.target.value)
+                        console.log(p.val())
+                    }
+                }
+
                     break
             }
         })
