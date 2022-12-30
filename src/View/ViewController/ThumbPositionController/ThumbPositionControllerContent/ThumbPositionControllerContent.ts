@@ -41,6 +41,7 @@ class ThumbPositionControllerContent {
             $(`#${id}.${this.thumbInputValue}`).attr("value", ModelSliderStore.getThumbScalePosition(id))
             $(`#${id}.${this.topElement}`).text(ModelSliderStore.getThumbScalePosition(id))
             $(`#${id}.${this.bottomElement}`).text(ModelSliderStore.getThumbScalePosition(id))
+            $(`#${id}.thumb-input-value`).val(`${ModelSliderStore.getThumbScalePosition(id)}`)
             $('.view__scale-track')
                 .attr("style", `left: ${ModelSliderStore.getThumbPosition('min') + 5 }px`)
                 .css({width: ModelSliderStore.getThumbsDifference() - 3 })

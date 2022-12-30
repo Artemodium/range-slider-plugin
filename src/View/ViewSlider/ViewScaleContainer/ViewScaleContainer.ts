@@ -32,9 +32,11 @@ class ViewScaleContainer {
             let maxThumbPos = ModelSliderStore.getThumbPosition(max)
             Math.abs(clickPosition - minThumbPos) > Math.abs(clickPosition - maxThumbPos) ?
                 ModelSliderStore.dispatch(onThumbPosChange(max, clickPosition)) &&
-                $(`#${max}.${thumb}`).attr("style", ModelSliderStore.getThumbStylePosition(max)):
+                ($(`#${max}.${thumb}`)[0].style.left = `${ModelSliderStore.getThumbPosition(max)}px`) &&
+                $(`#${max}.thumb-input-value`).val(`${ModelSliderStore.getThumbScalePosition(max)}`):
                 ModelSliderStore.dispatch(onThumbPosChange(min, clickPosition)) &&
-                $(`#${min}.${thumb}`).attr("style", ModelSliderStore.getThumbStylePosition(min))
+                ($(`#${min}.${thumb}`)[0].style.left = `${ModelSliderStore.getThumbPosition(min)}px`) &&
+                $(`#${min}.thumb-input-value`).val(`${ModelSliderStore.getThumbScalePosition(min)}`)
         })
     }
 }

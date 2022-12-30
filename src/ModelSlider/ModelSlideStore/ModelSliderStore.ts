@@ -7,6 +7,9 @@ import {
     SET_SLIDER_SCALE_SIZE_RELATIVE,
     SET_THUMB_LOCK,
     SET_VIEW_RULER,
+    TEXT_INPUT_CHANGE,
+    THUMB_BACKGROUND_COLOR_CHANGE,
+    THUMB_BORDER_COLOR_CHANGE,
     THUMB_BORDER_RADIUS_CHANGE,
     THUMB_BORDER_WIDTH_CHANGE,
     THUMB_HEIGHT_CHANGE,
@@ -29,7 +32,6 @@ let modelSliderStore = <any>{
             lock: { }
         },
         dispatch(action: ActionType){
-            //console.log(this.modelSliderState)
             switch (action.type) {
                 /*case ADD_THUMB:
                     return this.modelSliderState.sliderThumbs={
@@ -37,18 +39,20 @@ let modelSliderStore = <any>{
                             relativePosition: parseInt(action.position.match(/[-]*[0-9]+/)[0])/this.getSliderScaleSize(),
                             scalePosition: action.scalePosition}}*/
                 case SET_SLIDER_SCALE_SIZE_PX:
-                    //console.log(this.modelSliderState.sliderScale.width)
-                    return this.modelSliderState.sliderScale = {...this.modelSliderState.sliderScale, left: action.left, width: action.width}
+                    return this.modelSliderState.sliderScale = {...this.modelSliderState.sliderScale,
+                                                                    left: action.left,
+                                                                    width: action.width,
+                                                                    stepRelative: (parseInt(action.width)-5)/this.getSliderScaleEnd()}
                 case SET_SLIDER_SCALE_SIZE_NUMBER:
                     return this.modelSliderState.sliderScaleRange = {...this.modelSliderState.sliderScaleRange,
                                                                         start: action.start,
                                                                         end: action.end,
                                                                         step: action.step}
                 case SET_SLIDER_SCALE_SIZE_RELATIVE:
-                    //console.log(this.modelSliderState.sliderScale)
-                    return this.modelSliderState.sliderScale = {...this.modelSliderState.sliderScale, widthRelative: action.width}
+                    console.log(this.modelSliderState.sliderScale)
+                    return this.modelSliderState.sliderScale = {...this.modelSliderState.sliderScale,
+                                                                    widthRelative: action.width }
                 case THUMB_POSITION_CHANGE:
-                    //console.log(this.modelSliderState.sliderThumbs)
                     if (!modelSliderStore.isThumbLock()) {
                         return this.modelSliderState.sliderThumbs[action.id] = {
                             thumbPosition: `left: ${action.val < 0 ? 0 : action.val > this.getSliderScaleSize() - 5 ? this.getSliderScaleSize() - 5 : action.val}px`,
@@ -82,7 +86,6 @@ let modelSliderStore = <any>{
                 case THUMB_WIDTH_CHANGE:
                     return { ...this.modelSliderState.sliderThumbs.metrics.width += action.val }
                 case THUMB_HEIGHT_CHANGE:
-                    //console.log(this.modelSliderState.sliderThumbs.metrics.height, this.modelSliderState.sliderThumbs.metrics.top)
                     this.modelSliderState.sliderThumbs.metrics.height += action.val
                     this.modelSliderState.sliderThumbs.metrics.top -= action.val/1.5
                     break
@@ -95,6 +98,15 @@ let modelSliderStore = <any>{
                     break
                 case TOP_THUMB_POSITION_CHANGE:
                     this.modelSliderState.sliderThumbs.metrics.top += action.val
+                    break
+                case THUMB_BACKGROUND_COLOR_CHANGE:
+                    this.modelSliderState.sliderThumbs.metrics.backgroundColor = action.val
+                    break
+                case THUMB_BORDER_COLOR_CHANGE:
+                    this.modelSliderState.sliderThumbs.metrics.borderColor = action.val
+                    break
+                case TEXT_INPUT_CHANGE:
+                    this.modelSliderState.sliderThumbs[action.id].thumbPosition = `left: ${action.val}px`
                     break
                 default:
                     return this.modelSliderState
@@ -133,6 +145,12 @@ let modelSliderStore = <any>{
         getThumbTop(): number{
             return this.modelSliderState.sliderThumbs.metrics.top
         },
+        getThumbBackgroundColor(): number{
+            return this.modelSliderState.sliderThumbs.metrics.backgroundColor
+        },
+        getThumbBorderColor(): number{
+            return this.modelSliderState.sliderThumbs.metrics.borderColor
+        },
         getThumbScalePosition(id: string): number {
             return this.modelSliderState.sliderThumbs[id].scalePosition
         },
@@ -148,6 +166,12 @@ let modelSliderStore = <any>{
         getSliderScaleSize(): string {
             return this.modelSliderState.sliderScale.width
         },
+        getSliderScaleEnd(): number {
+          return this.modelSliderState.sliderScaleRange.end
+        },
+        getSliderScaleStepRelative(): number {
+            return this.modelSliderState.sliderScale.stepRelative
+        },
         getSliderScaleSizeRelative(): number {
             return this.modelSliderState.sliderScale.widthRelative
         },
@@ -158,6 +182,5 @@ let modelSliderStore = <any>{
             return parseInt(this.modelSliderState.sliderScale.left)
         },
 }
-
 
 export default modelSliderStore

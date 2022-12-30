@@ -5,11 +5,16 @@ import {
     SET_SLIDER_SCALE_SIZE_PX,
     SET_SLIDER_SCALE_SIZE_RELATIVE,
     SET_THUMB_LOCK,
-    SET_VIEW_RULER, THUMB_BORDER_RADIUS_CHANGE,
+    SET_VIEW_RULER,
+    TEXT_INPUT_CHANGE,
+    THUMB_BACKGROUND_COLOR_CHANGE,
+    THUMB_BORDER_COLOR_CHANGE,
+    THUMB_BORDER_RADIUS_CHANGE,
     THUMB_BORDER_WIDTH_CHANGE,
     THUMB_HEIGHT_CHANGE,
     THUMB_POSITION_CHANGE,
-    THUMB_WIDTH_CHANGE, TOP_THUMB_POSITION_CHANGE
+    THUMB_WIDTH_CHANGE,
+    TOP_THUMB_POSITION_CHANGE
 } from "../ModelSliderActions/ModelSliderActions";
 
 export let addThumb = (className: string, id:string, position: string, scalePosition: number) => ({
@@ -87,4 +92,20 @@ export const onThumbBorderRadiusChange = (val: number) => ({
 export const onThumbTopPositionChange = (val: number) => ({
     type: TOP_THUMB_POSITION_CHANGE,
     val: val
+} as const)
+
+export const onThumbBackgroundColorChange = (val: string) => ({
+    type: THUMB_BACKGROUND_COLOR_CHANGE,
+    val: val
+} as const)
+
+export const onThumbBorderColorChange = (val: string) => ({
+    type: THUMB_BORDER_COLOR_CHANGE,
+    val: val
+} as const)
+
+export const onTextInputChange = (val: string, id: string) => ({
+    type: TEXT_INPUT_CHANGE,
+    val: val,
+    id: id
 } as const)

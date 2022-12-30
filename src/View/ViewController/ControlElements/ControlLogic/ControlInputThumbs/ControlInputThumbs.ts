@@ -1,5 +1,7 @@
 import ModelSliderStore from "../../../../../ModelSlider/ModelSlideStore/ModelSliderStore"
 import {
+    onTextInputChange,
+    onThumbBackgroundColorChange, onThumbBorderColorChange,
     onThumbBorderRadiusChange,
     onThumbBorderWidthChange,
     onThumbHeightChange,
@@ -34,11 +36,18 @@ class ControlInputThumbs {
         this.plusClassName = plusClassName
         this.minusClassName = minusClassName
     }
+    moveThumbByTextInput(id: string, val: number){
+        console.log(ModelSliderStore.getSliderScaleStepRelative())
+        $(`#${id}${this.thumbClass}`)[0].style.left = `${val*ModelSliderStore.getSliderScaleStepRelative()}px`
+        //$(`#${id}.thumb-input-value`).val(`${ModelSliderStore.getThumbScalePosition(id)}`)
+    }
 
-    moveThumbByControlElement(id: string, val: number, sign: boolean){
+    moveThumbByControlElement(id: string, val: number, sign?: boolean){
         ModelSliderStore.dispatch(onThumbPositionPlusMinus(id, val, sign))
         $(`#${id}${this.thumbClass}`)[0].style.left = `${ModelSliderStore.getThumbPosition(id)}px`
-        }
+        console.log(`${ModelSliderStore.getThumbPosition(id)}px`)
+        $(`#${id}.thumb-input-value`).val(`${ModelSliderStore.getThumbScalePosition(id)}`)
+    }
 
     thumbWidthChange(id: string, val: number){
         ModelSliderStore.dispatch(onThumbWidthChange(val))
@@ -47,41 +56,63 @@ class ControlInputThumbs {
         }
 
     thumbHeightChange(id: string, val: number){
-        let inputHeightSelector = $(`${this.thumbClass}`)
+        let thumbs = $(`${this.thumbClass}`)
         ModelSliderStore.dispatch(onThumbHeightChange(val))
-        inputHeightSelector.map(thumb => {
-            inputHeightSelector[thumb].style.height = `${ModelSliderStore.getThumbHeight()}px`
-            inputHeightSelector[thumb].style.top = `${ModelSliderStore.getThumbTop()}px`
+        thumbs.map(thumb => {
+            thumbs[thumb].style.height = `${ModelSliderStore.getThumbHeight()}px`
+            thumbs[thumb].style.top = `${ModelSliderStore.getThumbTop()}px`
         })
         $(`#${id}.${this.inputValue}`).attr("value", ModelSliderStore.getThumbHeight())
     }
 
     thumbBorderWidthChange(id: string, val: number){
-        let inputHeightSelector = $(`${this.thumbClass}`)
+        let thumbs = $(`${this.thumbClass}`)
         ModelSliderStore.dispatch(onThumbBorderWidthChange(val))
-        inputHeightSelector.map(thumb => {
-            inputHeightSelector[thumb].style.borderWidth = `${ModelSliderStore.getThumbBorderWidth()}px`
-            inputHeightSelector[thumb].style.top = `${ModelSliderStore.getThumbTop()}px`
+        thumbs.map(thumb => {
+            thumbs[thumb].style.borderWidth = `${ModelSliderStore.getThumbBorderWidth()}px`
+            thumbs[thumb].style.top = `${ModelSliderStore.getThumbTop()}px`
         })
         $(`#${id}.${this.inputValue}`).attr("value", ModelSliderStore.getThumbBorderWidth())
     }
 
     thumbBorderRadiusChange(id: string, val: number){
-        let inputHeightSelector = $(`${this.thumbClass}`)
+        let thumbs = $(`${this.thumbClass}`)
         ModelSliderStore.dispatch(onThumbBorderRadiusChange(val))
-        inputHeightSelector.map(thumb => {
-            inputHeightSelector[thumb].style.borderRadius = `${ModelSliderStore.getThumbBorderRadius()}px`
+        thumbs.map(thumb => {
+            thumbs[thumb].style.borderRadius = `${ModelSliderStore.getThumbBorderRadius()}px`
         })
         $(`#${id}.${this.inputValue}`).attr("value", ModelSliderStore.getThumbBorderRadius())
     }
 
     thumbTopChange(id: string, val: number){
-        let inputHeightSelector = $(`${this.thumbClass}`)
+        let thumbs = $(`${this.thumbClass}`)
         ModelSliderStore.dispatch(onThumbTopPositionChange(val))
-        inputHeightSelector.map(thumb => {
-            inputHeightSelector[thumb].style.top = `${ModelSliderStore.getThumbTop()}px`
+        thumbs.map(thumb => {
+            thumbs[thumb].style.top = `${ModelSliderStore.getThumbTop()}px`
         })
         $(`#${id}.${this.inputValue}`).attr("value", ModelSliderStore.getThumbTop().toFixed(1))
+    }
+
+    getBGColorInput = (event: any) => {
+        let thumbs = $(`${this.thumbClass}`)
+        ModelSliderStore.dispatch(onThumbBackgroundColorChange(event.target.value))
+        $(document.querySelector(`#${this.id}.thumb-input__element-text`)).val(ModelSliderStore.getThumbBackgroundColor())
+        thumbs.map(thumb => {
+            thumbs[thumb].style.backgroundColor = ModelSliderStore.getThumbBackgroundColor()
+        })
+    }
+
+    getBorderColorInput = (event: any) => {
+        let thumbs = $(`${this.thumbClass}`)
+        ModelSliderStore.dispatch(onThumbBorderColorChange(event.target.value))
+        $(document.querySelector(`#${this.id}.thumb-input__element-text`)).val(ModelSliderStore.getThumbBorderColor())
+        thumbs.map(thumb => {
+            thumbs[thumb].style.borderColor = ModelSliderStore.getThumbBorderColor()
+        })
+    }
+    validateValue = (e: any): any =>  {
+        const value = e.target.value
+        e.target.value = value.replace(/\D/g, "")
     }
 
     getControl() {
@@ -102,6 +133,15 @@ class ControlInputThumbs {
                     } else if (e.target === document.querySelector(`#${this.id}.${this.plusClassName}`) && this.id === "max") {
                         this.moveThumbByControlElement(this.id, 1, true)
                     }
+                    $(`#${this.id}.thumb-input-value`).on("keyup", (e: any) => {
+                        let val = $(`#${this.id}.thumb-input-value`).val().toString()
+                        $(`#${this.id}.thumb-input-value`)[0].oninput = this.validateValue(e)
+                       // console.log(res)
+                        if (val in [...Array(ModelSliderStore.getThumbScalePosition("max") + 1).keys()]) {
+                            ModelSliderStore.dispatch(onTextInputChange(val, this.id))
+                            this.moveThumbByTextInput(this.id, parseInt(val))
+                        }
+                    })
                     break
                 case "thumb-width":
                     if (e.target === document.querySelector(`#${this.id}.${this.plusClassName}`) && this.id === "thumb-width") {
@@ -158,21 +198,17 @@ class ControlInputThumbs {
                         }
                     }
                     break
+                case "thumb-background-color":
+                    if (e.target === document.querySelector(`#${this.id}.thumb-input__element-color`) && this.id === "thumb-background-color") {
+                        let theInput = document.querySelector(`#${this.id}.thumb-input__element-color`)
+                        theInput.addEventListener("input", this.getBGColorInput, false)
+                    }
+                    break
                 case "thumb-border-color":
                     if (e.target === document.querySelector(`#${this.id}.thumb-input__element-color`) && this.id === "thumb-border-color") {
                         let theInput = document.querySelector(`#${this.id}.thumb-input__element-color`)
-                        theInput.addEventListener("input", updateFirst, false)
-                        console.log(theInput)
+                        theInput.addEventListener("input", this.getBorderColorInput, false)
                     }
-                function updateFirst(event: any) {
-                    const p = $(document.querySelector(`#${this.id}.thumb-input__element-color`))
-                    if (p) {
-                        console.log(event.target.value)
-                        p.val(event.target.value)
-                        console.log(p.val())
-                    }
-                }
-
                     break
             }
         })

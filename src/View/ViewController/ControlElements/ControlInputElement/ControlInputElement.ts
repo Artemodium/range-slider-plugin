@@ -65,7 +65,7 @@ class ControlInputElement {
                                 <div id="${id}" class="${this.minusClassName}">
                                     remove
                                 </div>
-                                <input id="${id}" class="${this.elementInputValue} ${this.elementInputValue}${this.modificator}"/>
+                                <input id="${id}" class="${this.elementInputValue} ${this.elementInputValue}${this.modificator}" oninput=""/>
                                 <div id="${id}" class="${this.plusClassName}">
                                     add
                                 </div>
