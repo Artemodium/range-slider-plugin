@@ -104,7 +104,7 @@ export const onThumbBorderColorChange = (val: string) => ({
     val: val
 } as const)
 
-export const onTextInputChange = (val: string, id: string) => ({
+export const onTextInputChange = (val: number, id: string) => ({
     type: TEXT_INPUT_CHANGE,
     val: val,
     id: id

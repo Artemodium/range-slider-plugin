@@ -166,6 +166,9 @@ let modelSliderStore = <any>{
         getSliderScaleSize(): string {
             return this.modelSliderState.sliderScale.width
         },
+        getSliderScaleStart(): string {
+            return this.modelSliderState.sliderScaleRange.start
+        },
         getSliderScaleEnd(): number {
           return this.modelSliderState.sliderScaleRange.end
         },

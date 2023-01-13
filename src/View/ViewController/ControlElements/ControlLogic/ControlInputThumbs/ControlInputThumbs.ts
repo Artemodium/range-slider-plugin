@@ -37,15 +37,13 @@ class ControlInputThumbs {
         this.minusClassName = minusClassName
     }
     moveThumbByTextInput(id: string, val: number){
-        console.log(ModelSliderStore.getSliderScaleStepRelative())
         $(`#${id}${this.thumbClass}`)[0].style.left = `${val*ModelSliderStore.getSliderScaleStepRelative()}px`
-        //$(`#${id}.thumb-input-value`).val(`${ModelSliderStore.getThumbScalePosition(id)}`)
     }
 
     moveThumbByControlElement(id: string, val: number, sign?: boolean){
+        console.log(ModelSliderStore.getThumbScalePosition(id), ModelSliderStore.getThumbStylePosition(id))
         ModelSliderStore.dispatch(onThumbPositionPlusMinus(id, val, sign))
         $(`#${id}${this.thumbClass}`)[0].style.left = `${ModelSliderStore.getThumbPosition(id)}px`
-        console.log(`${ModelSliderStore.getThumbPosition(id)}px`)
         $(`#${id}.thumb-input-value`).val(`${ModelSliderStore.getThumbScalePosition(id)}`)
     }
 
@@ -110,9 +108,29 @@ class ControlInputThumbs {
             thumbs[thumb].style.borderColor = ModelSliderStore.getThumbBorderColor()
         })
     }
-    validateValue = (e: any): any =>  {
-        const value = e.target.value
-        e.target.value = value.replace(/\D/g, "")
+    validateValue = (e: any, id: string): number =>  {
+        e.target.value = e.target.value.replace(/\D/g, "")
+        //console.log("e = ",e.target.value, [...Array(ModelSliderStore.getThumbScalePosition("max") + 1).keys()].slice(ModelSliderStore.getSliderScaleStart()))
+        //console.log(e.target.value in [...Array(ModelSliderStore.getThumbScalePosition("max") + 1).keys()].slice(ModelSliderStore.getSliderScaleStart()))
+        if(id === 'min' && e.target.value in [...Array(ModelSliderStore.getThumbScalePosition("max") + 1).keys()].slice(ModelSliderStore.getSliderScaleStart())){
+            console.log(e.target.value, ModelSliderStore.getThumbScalePosition("max"), "!!!!!!!!!!!!")
+            return e.target.value >= ModelSliderStore.getThumbScalePosition("max") ? ModelSliderStore.getThumbScalePosition("max") : e.target.value
+        }
+        else if(id === 'min' && !(e.target.value in [...Array(ModelSliderStore.getThumbScalePosition("max") + 1).keys()].slice(ModelSliderStore.getSliderScaleStart()))){
+            e.target.value = ModelSliderStore.getThumbScalePosition("min")
+            console.log("end!!")
+            return -10
+        }
+        console.log("end!!", id, e.target.value in [...Array(ModelSliderStore.getSliderScaleEnd() + 2).keys()].slice(ModelSliderStore.getThumbScalePosition("min")))
+        console.log(e.target.value, e.target.value in [...Array(ModelSliderStore.getSliderScaleEnd() + 2).keys()].slice(ModelSliderStore.getThumbScalePosition("min")))
+        if(id === 'max' && e.target.value in [...Array(ModelSliderStore.getSliderScaleEnd() + 2).keys()].slice(ModelSliderStore.getThumbScalePosition("min"))){
+            console.log("e = ",e.target.value, [...Array(ModelSliderStore.getSliderScaleEnd() + 2).keys()].slice(ModelSliderStore.getThumbScalePosition("min")).includes(e.target.value))
+            return e.target.value >= ModelSliderStore.getSliderScaleEnd() ? ModelSliderStore.getSliderScaleEnd() : e.target.value
+        }
+        else {
+            e.target.value =  ModelSliderStore.getThumbScalePosition("max")
+            return -10
+        }
     }
 
     getControl() {
@@ -133,15 +151,6 @@ class ControlInputThumbs {
                     } else if (e.target === document.querySelector(`#${this.id}.${this.plusClassName}`) && this.id === "max") {
                         this.moveThumbByControlElement(this.id, 1, true)
                     }
-                    $(`#${this.id}.thumb-input-value`).on("keyup", (e: any) => {
-                        let val = $(`#${this.id}.thumb-input-value`).val().toString()
-                        $(`#${this.id}.thumb-input-value`)[0].oninput = this.validateValue(e)
-                       // console.log(res)
-                        if (val in [...Array(ModelSliderStore.getThumbScalePosition("max") + 1).keys()]) {
-                            ModelSliderStore.dispatch(onTextInputChange(val, this.id))
-                            this.moveThumbByTextInput(this.id, parseInt(val))
-                        }
-                    })
                     break
                 case "thumb-width":
                     if (e.target === document.querySelector(`#${this.id}.${this.plusClassName}`) && this.id === "thumb-width") {
@@ -210,6 +219,21 @@ class ControlInputThumbs {
                         theInput.addEventListener("input", this.getBorderColorInput, false)
                     }
                     break
+            }
+        })
+        let input = $(`#${this.id}.${this.inputValue}`)
+        $(input).on("keyup", (e: any) => {
+            console.log(input)
+            switch (this.dataExchangeMethod) {
+                case "thumb-position":
+                    //let val = input.val().toString()
+                    let val = this.validateValue(e, this.id)
+                    if(val != -10) {
+                        console.log(val)
+                        ModelSliderStore.dispatch(onTextInputChange(val, this.id))
+                        console.log(this.id, val)
+                        this.moveThumbByTextInput(this.id, val)
+                    }
             }
         })
     }
