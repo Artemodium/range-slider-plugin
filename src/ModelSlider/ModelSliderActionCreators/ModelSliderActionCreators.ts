@@ -5,8 +5,8 @@ import {
     SET_SLIDER_SCALE_SIZE_PX,
     SET_SLIDER_SCALE_SIZE_RELATIVE,
     SET_THUMB_LOCK,
-    SET_VIEW_RULER,
-    TEXT_INPUT_CHANGE,
+    SET_VIEW_RULER, TEXT_INPUT_CHANGE_BORDER_RADIUS, TEXT_INPUT_CHANGE_BORDER_WIDTH, TEXT_INPUT_CHANGE_THUMBS_HEIGHT,
+    TEXT_INPUT_CHANGE_THUMBS_POSITION, TEXT_INPUT_CHANGE_THUMBS_TOP, TEXT_INPUT_CHANGE_THUMBS_WIDTH,
     THUMB_BACKGROUND_COLOR_CHANGE,
     THUMB_BORDER_COLOR_CHANGE,
     THUMB_BORDER_RADIUS_CHANGE,
@@ -104,8 +104,33 @@ export const onThumbBorderColorChange = (val: string) => ({
     val: val
 } as const)
 
-export const onTextInputChange = (val: number, id: string) => ({
-    type: TEXT_INPUT_CHANGE,
+export const onTextInputChangeThumbsPosition = (val: number, id: string) => ({
+    type: TEXT_INPUT_CHANGE_THUMBS_POSITION,
     val: val,
     id: id
+} as const)
+
+export const onTextInputChangeThumbsWidth = (val: number) => ({
+    type: TEXT_INPUT_CHANGE_THUMBS_WIDTH,
+    val: val
+} as const)
+
+export const onTextInputChangeThumbsHeight = (val: number) => ({
+    type: TEXT_INPUT_CHANGE_THUMBS_HEIGHT,
+    val: val
+} as const)
+
+export const onTextInputChangeBorderWidth = (val: number) => ({
+    type: TEXT_INPUT_CHANGE_BORDER_WIDTH,
+    val: val
+} as const)
+
+export const onTextInputChangeBorderRadius = (val: number) => ({
+    type: TEXT_INPUT_CHANGE_BORDER_RADIUS,
+    val: val
+} as const)
+
+export const onTextInputChangeThumbsTop = (val: number) => ({
+    type: TEXT_INPUT_CHANGE_THUMBS_TOP,
+    val: val
 } as const)

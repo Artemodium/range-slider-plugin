@@ -14,7 +14,10 @@ import {
     TOP_THUMB_POSITION_CHANGE,
     THUMB_BACKGROUND_COLOR_CHANGE,
     THUMB_BORDER_COLOR_CHANGE,
-    TEXT_INPUT_CHANGE
+    TEXT_INPUT_CHANGE_THUMBS_POSITION,
+    TEXT_INPUT_CHANGE_THUMBS_WIDTH,
+    TEXT_INPUT_CHANGE_THUMBS_HEIGHT,
+    TEXT_INPUT_CHANGE_BORDER_WIDTH, TEXT_INPUT_CHANGE_BORDER_RADIUS, TEXT_INPUT_CHANGE_THUMBS_TOP
 } from "../ModelSlider/ModelSliderActions/ModelSliderActions";
 
 export type thumbPositionChangeActionType = {
@@ -104,9 +107,34 @@ export type thumbBorderColorChange = {
     val: string
 }
 
-export type textInputChange = {
-    type: typeof TEXT_INPUT_CHANGE
+export type textInputChangeThumbsPosition = {
+    type: typeof TEXT_INPUT_CHANGE_THUMBS_POSITION
     id: string
+    val: string
+}
+
+export type textInputChangeThumbsWidth = {
+    type: typeof TEXT_INPUT_CHANGE_THUMBS_WIDTH
+    val: string
+}
+
+export type textInputChangeThumbsHeight = {
+    type: typeof TEXT_INPUT_CHANGE_THUMBS_HEIGHT
+    val: string
+}
+
+export type textInputChangeBorderWidth = {
+    type: typeof TEXT_INPUT_CHANGE_BORDER_WIDTH
+    val: string
+}
+
+export type textInputChangeBorderRadius = {
+    type: typeof TEXT_INPUT_CHANGE_BORDER_RADIUS
+    val: string
+}
+
+export type textInputChangeThumbsTop = {
+    type: typeof TEXT_INPUT_CHANGE_THUMBS_TOP
     val: string
 }
 
@@ -125,4 +153,9 @@ export type ActionType = thumbPositionChangeActionType
                         | topThumbPositionChange
                         | thumbBackgroundColorChange
                         | thumbBorderColorChange
-                        | textInputChange
+                        | textInputChangeThumbsPosition
+                        | textInputChangeThumbsWidth
+                        | textInputChangeThumbsHeight
+                        | textInputChangeBorderWidth
+                        | textInputChangeBorderRadius
+                        | textInputChangeThumbsTop

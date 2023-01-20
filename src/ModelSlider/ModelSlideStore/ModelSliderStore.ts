@@ -7,7 +7,11 @@ import {
     SET_SLIDER_SCALE_SIZE_RELATIVE,
     SET_THUMB_LOCK,
     SET_VIEW_RULER,
-    TEXT_INPUT_CHANGE,
+    TEXT_INPUT_CHANGE_BORDER_RADIUS,
+    TEXT_INPUT_CHANGE_BORDER_WIDTH,
+    TEXT_INPUT_CHANGE_THUMBS_HEIGHT,
+    TEXT_INPUT_CHANGE_THUMBS_POSITION, TEXT_INPUT_CHANGE_THUMBS_TOP,
+    TEXT_INPUT_CHANGE_THUMBS_WIDTH,
     THUMB_BACKGROUND_COLOR_CHANGE,
     THUMB_BORDER_COLOR_CHANGE,
     THUMB_BORDER_RADIUS_CHANGE,
@@ -105,8 +109,23 @@ let modelSliderStore = <any>{
                 case THUMB_BORDER_COLOR_CHANGE:
                     this.modelSliderState.sliderThumbs.metrics.borderColor = action.val
                     break
-                case TEXT_INPUT_CHANGE:
+                case TEXT_INPUT_CHANGE_THUMBS_POSITION:
                     this.modelSliderState.sliderThumbs[action.id].thumbPosition = `left: ${action.val}px`
+                    break
+                case TEXT_INPUT_CHANGE_THUMBS_WIDTH:
+                    this.modelSliderState.sliderThumbs.metrics.width = action.val
+                    break
+                case TEXT_INPUT_CHANGE_THUMBS_HEIGHT:
+                    this.modelSliderState.sliderThumbs.metrics.height = action.val
+                    break
+                case TEXT_INPUT_CHANGE_BORDER_WIDTH:
+                    this.modelSliderState.sliderThumbs.metrics.borderWidth = action.val
+                    break
+                case TEXT_INPUT_CHANGE_BORDER_RADIUS:
+                    this.modelSliderState.sliderThumbs.metrics.borderRadius = action.val
+                    break
+                case TEXT_INPUT_CHANGE_THUMBS_TOP:
+                    this.modelSliderState.sliderThumbs.metrics.top = action.val
                     break
                 default:
                     return this.modelSliderState
@@ -184,6 +203,27 @@ let modelSliderStore = <any>{
         getSliderScaleLeftOffset(): number {
             return parseInt(this.modelSliderState.sliderScale.left)
         },
+        getMinSliderScale(): number[] {
+            return [...Array(this.getThumbScalePosition("max") + 1).keys()].slice(this.getSliderScaleStart())
+        },
+        getMaxSliderScale(): number[] {
+            return [...Array(this.getSliderScaleEnd() + 2).keys()].slice(this.getThumbScalePosition("min"))
+        },
+        getWidthRange(): number[]{
+            return this.modelSliderState.sliderThumbs.metrics.widthRange
+        },
+        getHeightRange(): number[]{
+            return this.modelSliderState.sliderThumbs.metrics.heightRange
+        },
+        getBorderWidthRange(): number[]{
+            return this.modelSliderState.sliderThumbs.metrics.borderWidthRange
+        },
+        getBorderRadiusRange(): number[]{
+            return this.modelSliderState.sliderThumbs.metrics.borderRadiusRange
+        },
+        getThumbsTopRange(): number[]{
+            return this.modelSliderState.sliderThumbs.metrics.topRange
+        }
 }
 
 export default modelSliderStore
