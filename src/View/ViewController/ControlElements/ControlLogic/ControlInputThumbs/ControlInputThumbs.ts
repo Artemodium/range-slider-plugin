@@ -14,6 +14,7 @@ import {
     onTextInputChangeBorderWidth,
     onTextInputChangeBorderRadius, onTextInputChangeThumbsTop
 } from "../../../../../ModelSlider/ModelSliderActionCreators/ModelSliderActionCreators"
+import {clearInterval} from "timers";
 
 
 class ControlInputThumbs {
@@ -49,6 +50,27 @@ class ControlInputThumbs {
         ModelSliderStore.dispatch(onThumbPositionPlusMinus(id, val, sign))
         $(`#${id}${this.thumbClass}`)[0].style.left = `${ModelSliderStore.getThumbPosition(id)}px`
         $(`#${id}.thumb-input-value`).val(`${ModelSliderStore.getThumbScalePosition(id)}`)
+    }
+
+    moveThumbByMouseDown(id: string, val: number, selector: JQuery, sign: string) {
+        let active = setInterval(() => {
+            let onSign = sign === this.plusClassName ? true : false
+            if ( (ModelSliderStore.getThumbsDifferenceOnScale() < 2 && sign === this.plusClassName && id === "min") ||
+                (ModelSliderStore.getThumbsDifferenceOnScale() < 2 && sign === this.minusClassName && id === "max") ||
+                (ModelSliderStore.getThumbScalePosition(id) < ModelSliderStore.getSliderScaleStart() + 2  && sign === this.minusClassName && id === "min") ||
+                (ModelSliderStore.getThumbScalePosition(id) > ModelSliderStore.getSliderScaleEnd() - 2 && sign === this.plusClassName && id === "max") )
+                    clearInterval(active)
+            ModelSliderStore.dispatch(onThumbPositionPlusMinus(id, val, onSign))
+            $(`#${id}.${this.inputValue}`).val(`${ModelSliderStore.getThumbScalePosition(id)}`)
+            $(`#${id}${this.thumbClass}`)[0].style.left = `${ModelSliderStore.getThumbPosition(id)}px`
+            $(`#${id}.thumb-input-value`).val(`${ModelSliderStore.getThumbScalePosition(id)}`)
+        }, 10)
+        selector.on("mouseup", () => {
+            clearInterval(active)
+        }).on("mouseleave", () => {
+            clearInterval(active)
+        })
+        return false
     }
 
     thumbWidthChange(id: string, val: number){
@@ -111,17 +133,21 @@ class ControlInputThumbs {
         $(`#${id}.${this.inputValue}`).val(ModelSliderStore.getThumbTop().toFixed(1))
     }
 
-    thumbTopChangeMouseDown(id: string, val: number, flag?: any, isDoing?: boolean){
-        ModelSliderStore.dispatch(onThumbTopPositionChange(val))
-        let start = flag
-        let startDoing = isDoing
-        let i = 1
-        console.log(startDoing, ++i)
-        $(`${this.thumbClass}`).map(thumb => {
-            $(`${this.thumbClass}`)[thumb].style.top = `${ModelSliderStore.getThumbTop()}px`
+    thumbTopChangeMouseDown(id: string, val: number, selector: JQuery) {
+        let thumbs = $(`${this.thumbClass}`)
+        let mdcTimer = setInterval(() => {
+                ModelSliderStore.dispatch(onThumbTopPositionChange(val))
+                $(`#${id}.${this.inputValue}`).val(ModelSliderStore.getThumbTop().toFixed(1))
+                if( ModelSliderStore.getThumbTop()>9.9 || ModelSliderStore.getThumbTop()<-4.9 ) { clearInterval(mdcTimer) }
+                thumbs.map(thumb => {
+                    thumbs[thumb].style.top = `${ModelSliderStore.getThumbTop()}px` })
+            }, 100)
+        selector.on("mouseup", () => {
+            clearInterval(mdcTimer)
+        }).on("mouseleave", () => {
+            clearInterval(mdcTimer)
         })
-        $(`#${id}.${this.inputValue}`).val(ModelSliderStore.getThumbTop().toFixed(1))
-        startDoing ? setTimeout(this.thumbTopChangeMouseDown, 1000,  this.id, 0.1, null, true) : ""
+        return false
     }
 
     changeThumbThumbsTopByTextInput(id: string, val: number){
@@ -174,17 +200,19 @@ class ControlInputThumbs {
     }
 
     validateInputFloatSignedNumber = (e: any, id:string, interval?: {start: number, end: number, step: number }) => {
-        e.target.value = e.target.value.replace(/[^0-9.-]|(?<=[A-z])\.[0-9]|[0-9]+-[0-9]*|\./g, "")
-        if(parseInt(e.target.value) >= interval.start && parseInt(e.target.value) <= interval.end) {
+        e.target.value = e.target.value.replace(/[^0-9.-]|(?<=[A-z])\.[0-9]|[0-9]+-[0-9]*/g, "")
+        e.target.value = e.target.value.replace(/^0\d/g, e.target.value[0] + "." + e.target.value[1])
+        e.target.value = e.target.value.replace(/^\./g, "0" + e.target.value[0])
+        e.target.value[0] === "-" && e.target.value.length>4 ? e.target.value = e.target.value.slice(0, 4) : e.target.value
+        e.target.value[0] !== "-" && e.target.value.length>3 ? e.target.value = e.target.value.slice(0, 3) : e.target.value
+        if(parseInt(e.target.value) >= interval.start && parseInt(e.target.value) <= interval.end ) {
             $(`#${this.id}.${this.inputValue}`).removeClass("incorrect-value")
-            return parseInt(e.target.value)
+            return parseFloat(e.target.value)
         }
         else {
             $(`#${this.id}.${this.inputValue}`).addClass("incorrect-value")
         }
     }
-
-
 
     getControl() {
         $(`${this.controlBlockArea}`).on("click", (e: Event) => {
@@ -195,7 +223,9 @@ class ControlInputThumbs {
                             this.moveThumbByControlElement(this.id, 1, true)
                             $(`#${this.id}.${this.inputValue}`).removeClass("incorrect-value")
                         }
-                    } else if (e.target === document.querySelector(`#${this.id}.${this.minusClassName}`) && this.id === "min") {
+                    } else if (e.target === document.querySelector(`#${this.id}.${this.minusClassName}`) &&
+                        this.id === "min" &&
+                        ModelSliderStore.getThumbScalePosition(this.id) >= ModelSliderStore.getSliderScaleStart()+1) {
                         this.moveThumbByControlElement(this.id, 1, false)
                         $(`#${this.id}.${this.inputValue}`).removeClass("incorrect-value")
                     }
@@ -204,7 +234,9 @@ class ControlInputThumbs {
                             this.moveThumbByControlElement(this.id, 1, false)
                             $(`#${this.id}.${this.inputValue}`).removeClass("incorrect-value")
                         }
-                    } else if (e.target === document.querySelector(`#${this.id}.${this.plusClassName}`) && this.id === "max") {
+                    } else if (e.target === document.querySelector(`#${this.id}.${this.plusClassName}`)
+                        && this.id === "max"
+                        && ModelSliderStore.getThumbScalePosition(this.id) <= ModelSliderStore.getSliderScaleEnd()-1) {
                         this.moveThumbByControlElement(this.id, 1, true)
                         $(`#${this.id}.${this.inputValue}`).removeClass("incorrect-value")
                     }
@@ -264,12 +296,12 @@ class ControlInputThumbs {
                     break
                 case "top-thumb-position":
                     if (e.target === document.querySelector(`#${this.id}.${this.plusClassName}`) && this.id === "top-thumb-position") {
-                        if (ModelSliderStore.getThumbTop() < 10) {
+                        if (ModelSliderStore.getThumbTop() < 9.9) {
                             this.thumbTopChange(this.id, 0.1)
                             $(`#${this.id}.${this.inputValue}`).removeClass("incorrect-value")
                         }
                     } else if(e.target === document.querySelector(`#${this.id}.${this.minusClassName}`) && this.id === "top-thumb-position") {
-                        if (ModelSliderStore.getThumbTop() > -5) {
+                        if (ModelSliderStore.getThumbTop() > -4.9) {
                             this.thumbTopChange(this.id, -0.1)
                             $(`#${this.id}.${this.inputValue}`).removeClass("incorrect-value")
                         }
@@ -345,40 +377,51 @@ class ControlInputThumbs {
                 break
             }
         })
-        let start: any = null
-        let delay = 1000
-        let startDoing = false
-        let selector = $("#top-thumb-position.input-control__value-plus")
-        selector.on("mousedown", (e: any ) => {
-            switch (this.dataExchangeMethod) {
-                case "top-thumb-position":
-                    if (e.target === document.querySelector(`#${this.id}.${this.plusClassName}`) && this.id === "top-thumb-position") {
-                        if (ModelSliderStore.getThumbTop() < 10) {
-                           setTimeout(this.thumbTopChangeMouseDown, delay,  this.id, 0.1, null, true)
-                            /*start = setTimeout((id: string = this.id, val: number = 0.1) => {
-                                start = null
-                                startDoing = true
-                                ModelSliderStore.dispatch(onThumbTopPositionChange(val))
-                                $(`${this.thumbClass}`).map(thumb => {
-                                        $(`${this.thumbClass}`)[thumb].style.top = `${ModelSliderStore.getThumbTop()}px`
-                                })
-                                $(`#${id}.${this.inputValue}`).val(ModelSliderStore.getThumbTop().toFixed(1))
-                            }, delay)*/
-
+        switch (this.dataExchangeMethod) {
+            case "top-thumb-position":
+                for (const sign of [this.plusClassName, this.minusClassName]) {
+                    let active: any
+                    let startDoing = false
+                    $(`#${this.id}.${sign}`).on("mousedown", (e: any) => {
+                        if (e.target === document.querySelector(`#${this.id}.${sign}`) && this.id === "top-thumb-position") {
+                            startDoing = false
+                            let val: number
+                            val = sign === this.plusClassName ? 0.1 : -0.1
+                            if (ModelSliderStore.getThumbTop() < 9.9 && ModelSliderStore.getThumbTop() >= -4.9) {
+                                active = setTimeout(() => {
+                                    startDoing = true
+                                    startDoing ? this.thumbTopChangeMouseDown(this.id, val, $(`#${this.id}.${sign}`)) : ""
+                                }, 1000)
+                            }
                         }
-                    }
-                    //break
+                            }).on("mouseup", () => {
+                                clearInterval(active)
+                            }).on("mouseleave", () => {
+                                clearInterval(active)
+                            })
             }
-        })
-       selector.on("mouseup", (e: Event) => {
-           if(start){
-               console.log(start)
-               clearTimeout(start)
-           }
-           else if( startDoing ){
-                startDoing = false
-           }
-        })
+                break
+                case "thumb-position":
+                    for (const sign of [this.plusClassName, this.minusClassName]) {
+                        let active: any
+                        let startDoing = false
+                        $(`#${this.id}.${sign}`).on("mousedown", (e: any) => {
+                            for(const id of["max", "min"]) {
+                                if (e.target === document.querySelector(`#${this.id}.${sign}`) && this.id === id) {
+                                        active = setTimeout(() => {
+                                            clearInterval(active)
+                                            startDoing = true
+                                            startDoing ? this.moveThumbByMouseDown(this.id, 1, $(`#${this.id}.${sign}`), sign) : ""
+                                        }, 1000)
+                                }
+                            }
+                        }).on("mouseup", () => {
+                            clearInterval(active)
+                        }).on("mouseleave", () => {
+                            clearInterval(active)
+                        })
+                    }
+        }
     }
 }
 

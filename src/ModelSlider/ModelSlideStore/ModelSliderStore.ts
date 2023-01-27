@@ -143,6 +143,9 @@ let modelSliderStore = <any>{
         getThumbPosition(id: string): number {
             return parseInt(this.modelSliderState.sliderThumbs[id].thumbPosition.match(/-*[0-9]+/))
         },
+        getThumbsDifference(): number {
+            return this.getThumbPosition('max') - this.getThumbPosition('min')
+        },
         getRelativeThumbPosition(id: string){
             return this.modelSliderState.sliderThumbs[id].relativePosition
         },
@@ -172,9 +175,6 @@ let modelSliderStore = <any>{
         },
         getThumbScalePosition(id: string): number {
             return this.modelSliderState.sliderThumbs[id].scalePosition
-        },
-        getThumbsDifference(): number {
-            return this.getThumbPosition('max') - this.getThumbPosition('min')
         },
         getThumbsDifferenceOnScale(): number {
             return this.getThumbScalePosition('max') - this.getThumbScalePosition('min')
