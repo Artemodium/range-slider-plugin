@@ -14,7 +14,7 @@ import {
     onTextInputChangeBorderWidth,
     onTextInputChangeBorderRadius, onTextInputChangeThumbsTop
 } from "../../../../../ModelSlider/ModelSliderActionCreators/ModelSliderActionCreators"
-import {clearInterval} from "timers";
+//import {clearInterval} from "timers";
 
 
 class ControlInputThumbs {
@@ -408,9 +408,16 @@ class ControlInputThumbs {
                         $(`#${this.id}.${sign}`).on("mousedown", (e: any) => {
                             for(const id of["max", "min"]) {
                                 if (e.target === document.querySelector(`#${this.id}.${sign}`) && this.id === id) {
-                                        active = setTimeout(() => {
-                                            clearInterval(active)
-                                            startDoing = true
+                                    startDoing = true
+                                    active = setTimeout(() => {
+                                        if( (ModelSliderStore.getThumbsDifferenceOnScale() < 2 && sign === this.plusClassName && id === "min") ||
+                                            (ModelSliderStore.getThumbsDifferenceOnScale() < 2 && sign === this.minusClassName && id === "max") ||
+                                            (ModelSliderStore.getThumbScalePosition(id) < ModelSliderStore.getSliderScaleStart() + 2  && sign === this.minusClassName && id === "min") ||
+                                            (ModelSliderStore.getThumbScalePosition(id) > ModelSliderStore.getSliderScaleEnd() - 2 && sign === this.plusClassName && id === "max") ) {
+                                                console.log("clear")
+                                                clearInterval(active)
+                                                startDoing = false
+                                            }
                                             startDoing ? this.moveThumbByMouseDown(this.id, 1, $(`#${this.id}.${sign}`), sign) : ""
                                         }, 1000)
                                 }
